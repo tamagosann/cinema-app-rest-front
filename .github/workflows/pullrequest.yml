@@ -2,12 +2,12 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronized]
+    types: [opened, synchronize]
 
 jobs:
   build:
     name: lintWithTest
-    runs-on: node:14-alpine
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: yarn install
