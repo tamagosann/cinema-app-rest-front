@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: yarn install
-      - run: yarn install
+        run: yarn install
       - name: run eslint
-      - run: yarn lint
+        run: yarn lint
 # e2e実装後にここにstepを追加する
