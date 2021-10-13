@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  nextjs:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    command: "yarn dev"
+    tty: true
+    ports:
+      - "3333:3000"
+    networks:
+      shared-network:
+        ipv4_address: 172.30.0.10
+networks:
+  shared-network:
+    external: true
