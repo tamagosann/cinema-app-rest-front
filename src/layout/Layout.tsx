@@ -1,9 +1,9 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import MenuIcon from '@mui/icons-material/Menu';
-import MovieIcon from '@mui/icons-material/Movie';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
+import MenuIcon from '@mui/icons-material/Menu'
+import MovieIcon from '@mui/icons-material/Movie'
 import {
   AppBar,
   Button,
@@ -18,15 +18,18 @@ import {
   SvgIconTypeMap,
   Toolbar,
   Typography,
-} from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { createStyles, makeStyles } from '@mui/styles';
-import { Box, Theme } from '@mui/system';
-import { useRouter } from 'next/dist/client/router';
-import { FC } from 'react';
-import { useState } from 'react';
-import { useCallback } from 'react';
-import { useMediaQuery } from 'react-responsive';
+} from '@mui/material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
+import { createStyles, makeStyles } from '@mui/styles'
+import { Box, Theme } from '@mui/system'
+import next from 'next'
+import { useRouter } from 'next/dist/client/router'
+import Image from 'next/image'
+import { FC } from 'react'
+import { useState } from 'react'
+import { useCallback } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import logo from '../../public/logo1.png'
 // import UserContext from "../../store/userInfo";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,37 +44,37 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 215,
     },
   }),
-);
+)
 
 const Layout: FC = ({ children }) => {
   const { username, uid, isSignIn } = {
     username: 'むとう',
     uid: '0001',
     isSignIn: 'true',
-  };
-  const classes = useStyles();
-  const isSm = useMediaQuery({ minWidth: 600 });
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
+  }
+  const classes = useStyles()
+  const isSm = useMediaQuery({ minWidth: 600 })
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
 
   const link = useCallback(
     (path: string) => {
-      router.push(path);
+      router.push(path)
     },
     [router],
-  );
+  )
 
   const signOut = () => {
     //ログアウト処理
-    link('/');
-  };
+    link('/')
+  }
 
   type DrawerListItem = {
-    Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
-    text: string;
-    onClick: () => void;
-    whenToShow: 'in' | 'out' | 'anytime';
-  };
+    Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>
+    text: string
+    onClick: () => void
+    whenToShow: 'in' | 'out' | 'anytime'
+  }
 
   const drawerList: DrawerListItem[] = [
     {
@@ -97,7 +100,7 @@ const Layout: FC = ({ children }) => {
       text: 'サインアウト',
       onClick: () => {
         // ログアウト処理
-        link('/');
+        link('/')
       },
       whenToShow: 'in',
     },
@@ -107,16 +110,20 @@ const Layout: FC = ({ children }) => {
       onClick: () => link('/user/userId'),
       whenToShow: 'in',
     },
-  ];
+  ]
 
   return (
     <>
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <div style={{ verticalAlign: 'bottom' }} onClick={() => link('/')}>
-              <img src={'/logo1.png'} width='130' />
-            </div>
+            <Image
+              src={logo}
+              alt='logo'
+              width={100}
+              height={60}
+              onClick={() => console.log('クリックされた')}
+            />
             <Box className={classes.title} />
             {isSm ? (
               <>
@@ -176,7 +183,7 @@ const Layout: FC = ({ children }) => {
             {isSignIn
               ? drawerList
                   .filter((listItem) => {
-                    return listItem.whenToShow !== 'out';
+                    return listItem.whenToShow !== 'out'
                   })
                   .map((drawerListItem) => {
                     return (
@@ -187,11 +194,11 @@ const Layout: FC = ({ children }) => {
                         </ListItem>
                         <Divider />
                       </>
-                    );
+                    )
                   })
               : drawerList
                   .filter((listItem) => {
-                    return listItem.whenToShow !== 'in';
+                    return listItem.whenToShow !== 'in'
                   })
                   .map((drawerListItem) => {
                     return (
@@ -202,14 +209,14 @@ const Layout: FC = ({ children }) => {
                         </ListItem>
                         <Divider />
                       </>
-                    );
+                    )
                   })}
           </List>
         </div>
       </Drawer>
       <Container maxWidth='md'>{children}</Container>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
