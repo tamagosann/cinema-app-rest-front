@@ -1,4 +1,4 @@
-export const API_KEY = process.env.API_KEY
+export const API_KEY = process.env.API_KEY || process.env.NEXT_PUBLIC_API_KEY
 
 type Requests = {
   [fetchSomething: string]: {
@@ -10,7 +10,7 @@ type Requests = {
 export const requests: Requests = {
   fetchTrending: {
     title: 'Trending',
-    url: `/trending/all/week?api_key=${API_KEY}&language=en-US&page=3`,
+    url: `/trending/all/week?api_key=${API_KEY}&language=en-US`,
   },
   fetchTopRated: {
     title: 'TopRated',
