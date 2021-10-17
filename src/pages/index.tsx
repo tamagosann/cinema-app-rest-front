@@ -39,7 +39,6 @@ const useStyles = makeStyles({
 })
 
 const IndexPage: FC<ServerSideProps> = (props) => {
-  console.log('ああああああああああああああああああああああああああ')
   const { filmList: filmListFromProps } = props
   const [filmList, setFilmList] = useState<any[]>(filmListFromProps)
   const [hasMore, setHasMore] = useState(true) //再読み込み判定
