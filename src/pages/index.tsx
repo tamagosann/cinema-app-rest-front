@@ -67,17 +67,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     query: { genre = '', search = '' },
   } = context
 
-  // const { results: filmlist } = await fetch(
-  //   `/api/top?genre=${genre}&search=${search}`,
-  // )
-
-  const res = await fetch(`localhost:3030`)
-  console.log(res)
-
   const requestUrl =
-    Array.isArray(genre) || genre === undefined
+    Array.isArray(genre) || genre === ''
       ? requests.fetchTrending.url
       : requests[genre]?.url
+
+  console.log('requestUrl')
+  console.log(requestUrl)
 
   const { results: filmList } = await fetch(
     `https://api.themoviedb.org/3${requestUrl}`,
