@@ -14,7 +14,7 @@ import { Box } from '@mui/system'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 import { FC } from 'react'
-import { requests } from '../utils/requests'
+import { requests } from '../utils/filmRequests'
 import { BASE_URL } from 'common/urls'
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>

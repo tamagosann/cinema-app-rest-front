@@ -24,11 +24,17 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { requests } from '../utils/requests'
-import { BASE_URL } from 'common/urls'
+import { genres, requests } from '../utils/filmRequests'
+import {
+  TMDB_IMAGE_URL,
+  TMDB_HOST,
+  DISCOVER_FILM_URL,
+  Genre,
+} from '../utils/filmRequests'
 import { FilmList, TopSsrDto } from 'types/dto/ssr'
 
 const totalPage = 1000
@@ -65,26 +71,22 @@ const MenuProps = {
   },
 }
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-]
-
-function getStyles(name: string, personName: string[], theme: Theme) {
+function getStyles(genreName: string, genres: Genre[], theme: Theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      genres.find((_genre) => _genre.genreName === genreName) === undefined
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   }
+}
+
+const getQueryFromString = (genreNames: string[]) => {
+  const genreIds = genreNames.map((genreName) => {
+    return genres.find((genre) => genre.genreName === genreName)?.id
+  }) as number[]
+  return genreIds.length > 0
+    ? genreIds.map((id) => `genre=${id}`).join('&')
+    : ''
 }
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>
@@ -94,8 +96,11 @@ const IndexPage: FC<ServerSideProps> = (props) => {
   const [filmList, setFilmList] = useState<any[]>(filmListFromProps)
   const [hasMore, setHasMore] = useState(true) //再読み込み判定
   const [isFetching, setIsFetching] = useState(false)
+  const { query, push, replace } = useRouter()
 
-  console.log(filmListFromProps)
+  useEffect(() => {
+    setFilmList(filmListFromProps)
+  }, [filmListFromProps])
 
   const getFixedOverview = (overview: string) => {
     if (overview.length <= 160) return overview
@@ -136,14 +141,25 @@ const IndexPage: FC<ServerSideProps> = (props) => {
     setSearch(e.target.value)
   }
 
+  const handleClickSearchButton = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    console.log('おされgた')
+  }
+
   const theme = useTheme()
-  const [personName, setPersonName] = React.useState<string[]>([])
-  console.log(personName)
-  const handleChangeGenres = (event: SelectChangeEvent<typeof personName>) => {
+
+  const [selectedGenreNames, setSelectedGenreNames] = React.useState<string[]>(
+    [],
+  )
+
+  const handleChangeGenresSelected = (
+    event: SelectChangeEvent<typeof selectedGenreNames>,
+  ) => {
     const {
       target: { value },
     } = event
-    setPersonName(
+    setSelectedGenreNames(
       // On autofill we get a the stringified value.
       typeof value === 'string' ? value.split(',') : value,
     )
@@ -222,9 +238,9 @@ const IndexPage: FC<ServerSideProps> = (props) => {
                     <Image
                       alt={result.title || result.original_title}
                       src={
-                        `${BASE_URL}${
+                        `${TMDB_IMAGE_URL}${
                           result.backdrop_path || result.poster_path
-                        }` || `${BASE_URL}${result.poster_path}`
+                        }` || `${TMDB_IMAGE_URL}${result.poster_path}`
                       }
                       layout='fill'
                       objectFit='cover'
@@ -276,18 +292,26 @@ const IndexPage: FC<ServerSideProps> = (props) => {
               <InputLabel>genres</InputLabel>
               <Select
                 multiple
-                value={personName}
-                onChange={handleChangeGenres}
+                value={selectedGenreNames}
+                onChange={handleChangeGenresSelected}
+                onClose={() => {
+                  console.log('きた＿')
+                  replace(
+                    `/?${getQueryFromString(
+                      selectedGenreNames,
+                    )}&search=${search}`,
+                  )
+                }}
                 input={<OutlinedInput label='Name' />}
                 MenuProps={MenuProps}
               >
-                {names.map((name) => (
+                {genres.map(({ genreName }) => (
                   <MenuItem
-                    key={name}
-                    value={name}
-                    style={getStyles(name, personName, theme)}
+                    key={genreName}
+                    value={genreName}
+                    style={getStyles(genreName, genres, theme)}
                   >
-                    {name}
+                    {genreName}
                   </MenuItem>
                 ))}
               </Select>
@@ -321,7 +345,10 @@ const IndexPage: FC<ServerSideProps> = (props) => {
               flex: '0 0 auto',
             }}
           >
-            <IconButton style={{ width: '100%', height: '100%' }}>
+            <IconButton
+              style={{ width: '100%', height: '100%' }}
+              onClick={handleClickSearchButton}
+            >
               <SavedSearchIcon />
             </IconButton>
           </Box>
@@ -345,20 +372,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     query: { genre = '', search = '' },
   } = context
+  console.log('genre')
+  console.log(genre)
+  console.log('search')
+  console.log(search)
 
-  const requestUrl =
-    Array.isArray(genre) || genre === ''
-      ? requests.fetchTrending.url
-      : requests[genre]?.url
+  let genreQuery: string
+  if (!genre) {
+    genreQuery = ''
+  } else if (Array.isArray(genre)) {
+    console.log(genre)
+    genreQuery = `with_genres=${genre.join(',')}`
+  } else {
+    genreQuery = `with_genres=${genre}`
+  }
 
-  console.log('requestUrl')
+  const requestUrl = `${TMDB_HOST}${DISCOVER_FILM_URL}${
+    !!genreQuery || !!search ? '&' : ''
+  }${genreQuery}${
+    search ? `${genreQuery ? '&' : ''}with_keywords=${search}` : ''
+  }`
+
   console.log(requestUrl)
 
-  const { results: filmList } = await fetch(
-    `https://api.themoviedb.org/3${requestUrl}`,
-  ).then((res) => {
-    return res.json()
-  })
+  const { results: filmList } = await fetch(encodeURI(requestUrl)).then(
+    (res) => {
+      return res.json()
+    },
+  )
 
   return {
     props: {
