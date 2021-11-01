@@ -28,14 +28,14 @@ import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import React, { FC, useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { genres, requests } from '../utils/filmRequests'
+import { FilmList, TopSsrDto } from 'types/dto/ssr'
 import {
   TMDB_IMAGE_URL,
   TMDB_HOST,
   DISCOVER_FILM_URL,
   Genre,
-} from '../utils/filmRequests'
-import { FilmList, TopSsrDto } from 'types/dto/ssr'
+} from 'utils/filmRequests'
+import { genres, requests } from 'utils/filmRequests'
 
 const totalPage = 1000
 
