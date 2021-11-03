@@ -372,10 +372,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     query: { genre = '', search = '' },
   } = context
-  console.log('genre')
-  console.log(genre)
-  console.log('search')
-  console.log(search)
 
   let genreQuery: string
   if (!genre) {
@@ -393,13 +389,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     search ? `${genreQuery ? '&' : ''}with_keywords=${search}` : ''
   }`
 
-  console.log(requestUrl)
-
   const { results: filmList } = await fetch(encodeURI(requestUrl)).then(
     (res) => {
       return res.json()
     },
   )
+  console.log(filmList)
 
   return {
     props: {

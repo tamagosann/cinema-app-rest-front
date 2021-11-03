@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import FilmCard from './FilmCard'
+import { stabFilmData } from 'common/test_mock/stabData'
+import { FilmCard } from 'components/model/film/filmCard/index'
 
 export default {
   title: 'Example/Button',
@@ -12,3 +13,9 @@ export default {
 const Template: ComponentStory<typeof FilmCard> = (args) => (
   <FilmCard {...args} />
 )
+
+export const Loading = Template.bind({})
+Loading.args = {}
+
+export const Loaded = Template.bind({})
+Loaded.args = { ...stabFilmData }

@@ -11,10 +11,10 @@ export default {
 
 const Template: ComponentStory<typeof Page> = (args) => <Page {...args} />
 
-export const LoggedIn = Template.bind({})
-LoggedIn.args = {
-  ...HeaderStories.LoggedIn.args,
-}
+// export const LoggedIn = Template.bind({})
+// LoggedIn.args = {
+//   ...HeaderStories.LoggedIn.args,
+// }
 
 export const LoggedOut = Template.bind({})
 LoggedOut.args = {
