@@ -23,7 +23,6 @@
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.2",
     "@mui/styles": "^5.0.1",
-    "@storybook/preset-typescript": "^3.0.0",
     "add": "^2.0.6",
     "next": "11.1.2",
     "react": "17.0.2",
@@ -36,6 +35,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-console": "^1.2.3",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-links": "^6.3.12",
     "@storybook/react": "^6.3.12",

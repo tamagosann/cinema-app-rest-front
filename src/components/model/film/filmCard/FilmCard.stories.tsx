@@ -1,5 +1,3 @@
-import { ThemeProvider } from '@mui/material'
-import { ThemeContext } from '@mui/styled-engine'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { stabFilmData } from 'common/test_mock/stabData'
 import { FilmCard } from 'components/model/film/filmCard/index'
@@ -13,14 +11,20 @@ export default {
   },
 } as ComponentMeta<typeof FilmCard>
 
-const Template: ComponentStory<typeof FilmCard> = (args) => (
+const Template: ComponentStory<typeof FilmCard> = (args: any) => (
   <MuiThemeProvider>
     <FilmCard {...args} />
   </MuiThemeProvider>
 )
 
-export const Loading = Template.bind({})
-Loading.args = {}
+export const LoadingMobile = Template.bind({})
+LoadingMobile.args = { isMobileSize: true }
 
-export const Loaded = Template.bind({})
-Loaded.args = { ...stabFilmData }
+export const LoadedMobile = Template.bind({})
+LoadedMobile.args = { ...stabFilmData, isMobileSize: true }
+
+export const LoadingPC = Template.bind({})
+LoadingPC.args = {}
+
+export const LoadedPC = Template.bind({})
+LoadedPC.args = { ...stabFilmData }

@@ -13,14 +13,18 @@ import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 import Image from 'next/image'
 import React, { FC } from 'react'
-import useSize from 'hooks/useSize'
 import { FilmInfo } from 'types/dto/ssr'
 import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 
 const useStyles = makeStyles({
-  root: {
+  rootMobile: {
     width: '100%',
     maxWidth: 400,
+  },
+  rootPC: {
+    width: '100%',
+    maxWidth: 200,
+    height: (200 / 16) * 9,
   },
   title: {
     width: '100%',
@@ -28,25 +32,28 @@ const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
+  overview: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 3,
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+  },
 })
 
 // FilmInfoのプロパティにundefinedを足している
-type Props = { [P in keyof FilmInfo]: FilmInfo[P] | undefined } & Partial<{
-  handleClickCardBody: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => void
-  handleClickFavoIcon: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => void
-}>
-
-const getFixedOverview = (overview: string) => {
-  if (overview.length <= 160) return overview
-  const fixedOverView = overview.substr(0, 160) + '...'
-  return fixedOverView
-}
+type Props = { [P in keyof FilmInfo]: FilmInfo[P] | undefined } & {
+  isMobileSize: boolean
+} & Partial<{
+    handleClickCardBody: (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => void
+    handleClickFavoIcon: (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => void
+  }>
 
 const FilmCard: FC<Props> = ({
+  isMobileSize,
   release_date,
   title,
   id,
@@ -58,10 +65,16 @@ const FilmCard: FC<Props> = ({
   handleClickCardBody = () => {},
   handleClickFavoIcon = () => {},
 }) => {
-  const { root, title: titleStyle } = useStyles()
-  const { isMobileSize } = useSize()
+  const {
+    rootMobile,
+    rootPC,
+    title: titleStyle,
+    overview: overviewStyle,
+  } = useStyles()
+  console.log(isMobileSize)
   return (
-    <Card className={root}>
+    //逆じゃね？って思うけとこれでないとうまくいかないのでとりあえずこれで行く
+    <Card className={`${isMobileSize ? rootPC : rootMobile}`}>
       <CardActionArea onClick={handleClickCardBody}>
         <CardMedia title='Your title'>
           <div
@@ -97,27 +110,35 @@ const FilmCard: FC<Props> = ({
                 title || original_title
               )}
             </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
-              {!overview ? (
-                <Skeleton height={80} />
-              ) : (
-                getFixedOverview(overview)
-              )}
-            </Typography>
+            {!overview ? (
+              <Skeleton height={60} />
+            ) : (
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='p'
+                className={overviewStyle}
+              >
+                {overview}
+              </Typography>
+            )}
           </CardContent>
         )}
       </CardActionArea>
-
-      <CardActions>
-        <IconButton onClick={handleClickFavoIcon}>
-          <FavoriteIcon />
-        </IconButton>
-        <Typography>
-          <Box component='span' p={2}>
-            Favorite!
-          </Box>
-        </Typography>
-      </CardActions>
+      {isMobileSize ? (
+        <></>
+      ) : (
+        <CardActions>
+          <IconButton onClick={handleClickFavoIcon}>
+            <FavoriteIcon />
+          </IconButton>
+          <Typography>
+            <Box component='span' p={2}>
+              Favorite!
+            </Box>
+          </Typography>
+        </CardActions>
+      )}
     </Card>
   )
 }
