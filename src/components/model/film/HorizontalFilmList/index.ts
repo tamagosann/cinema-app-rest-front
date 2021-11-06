@@ -1,1 +1,1 @@
-export { default as HorizontalFilmList } from './horizontalFilmList'
+export { default as HorizontalFilmList } from './HorizontalFilmList'

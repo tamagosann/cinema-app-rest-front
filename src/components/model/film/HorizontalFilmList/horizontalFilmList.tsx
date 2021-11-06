@@ -1,4 +1,4 @@
-import { Box, List, ListItem } from '@mui/material'
+import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React, { FC } from 'react'
 import { FilmCard } from '../filmCard'
