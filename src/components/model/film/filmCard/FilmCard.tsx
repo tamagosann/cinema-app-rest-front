@@ -19,12 +19,12 @@ import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 const useStyles = makeStyles({
   rootMobile: {
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 200,
+    height: (200 / 16) * 9,
   },
   rootPC: {
     width: '100%',
-    maxWidth: 200,
-    height: (200 / 16) * 9,
+    maxWidth: 400,
   },
   title: {
     width: '100%',
@@ -73,8 +73,7 @@ const FilmCard: FC<Props> = ({
   } = useStyles()
   console.log(isMobileSize)
   return (
-    //逆じゃね？って思うけとこれでないとうまくいかないのでとりあえずこれで行く
-    <Card className={`${isMobileSize ? rootPC : rootMobile}`}>
+    <Card className={isMobileSize ? rootMobile : rootPC}>
       <CardActionArea onClick={handleClickCardBody}>
         <CardMedia title='Your title'>
           <div

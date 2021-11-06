@@ -4,7 +4,7 @@ import { FilmCard } from 'components/model/film/filmCard/index'
 import MuiThemeProvider from 'hooks/theme'
 
 export default {
-  title: 'Example/Button',
+  title: 'Film/FilmCard',
   component: FilmCard,
   argTypes: {
     backgroundColor: { control: 'color' },
