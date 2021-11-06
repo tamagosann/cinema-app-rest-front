@@ -41,3 +41,16 @@ Mobile.parameters = {
 
 export const PC = Template.bind({})
 PC.args = { genreId: 28, isMobileSize: false }
+PC.parameters = {
+  mockData: [
+    {
+      url: `${TMDB_HOST}${DISCOVER_FILM_URL}&with_genres=${28}`,
+      method: 'GET',
+      status: 200,
+      response: {
+        data: stabFilmDataList,
+      },
+      delay: 2000,
+    },
+  ],
+}
