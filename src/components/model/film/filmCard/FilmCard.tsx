@@ -91,6 +91,8 @@ const FilmCard: FC<Props> = ({
                 src={`${TMDB_IMAGE_URL}${backdrop_path || poster_path}`}
                 layout='fill'
                 objectFit='cover'
+                placeholder='blur'
+                blurDataURL='/loading-image.jpg'
               />
             )}
           </div>

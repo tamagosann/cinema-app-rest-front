@@ -10,13 +10,14 @@ type Props = {
 const fetcher = (url: string) =>
   fetch(url)
     .then((res: Response) => res.json())
-    .then((res: FetchFilmsByfilmIdDTO) => res.data)
+    .then((res: FetchFilmsByfilmIdDTO) => res.results)
     .catch((err) => err)
 
 export const useFilmList = ({ genreId }: Props) => {
   const url = `${TMDB_HOST}${DISCOVER_FILM_URL}&with_genres=${genreId}`
-  const { data, error } = useSWR<FilmInfo[], Error>(url, fetcher)
-
+  const { data, error } = useSWR<FilmInfo[], Error>(url, fetcher, {
+    revalidateIfStale: true,
+  })
   return {
     count: data?.length,
     error,
