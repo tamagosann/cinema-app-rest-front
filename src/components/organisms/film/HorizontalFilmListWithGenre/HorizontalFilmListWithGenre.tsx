@@ -8,9 +8,16 @@ import { getGenreName } from 'utils/filmRequests'
 type Props = {
   genreId: number
   isMobileSize: boolean
+  handleClickFilmCard: (filmInfo: {
+    [P in keyof FilmInfo]: FilmInfo[P] | undefined
+  }) => void
 }
 
-const HorizontalFilmListWithGenre: FC<Props> = ({ genreId, isMobileSize }) => {
+const HorizontalFilmListWithGenre: FC<Props> = ({
+  genreId,
+  isMobileSize,
+  handleClickFilmCard,
+}) => {
   const { count, data: filmList, error } = useFilmList({ genreId })
   const genreName = getGenreName(genreId)
   console.log(filmList)
@@ -21,7 +28,9 @@ const HorizontalFilmListWithGenre: FC<Props> = ({ genreId, isMobileSize }) => {
       <Typography gutterBottom variant='h6' fontWeight='bold' paddingLeft={1}>
         {genreName ? genreName : 'ジャンル名'}
       </Typography>
-      <HorizontalFilmList {...{ filmList, isMobileSize }} />
+      <HorizontalFilmList
+        {...{ filmList, isMobileSize, handleClickFilmCard }}
+      />
     </Box>
   )
 }

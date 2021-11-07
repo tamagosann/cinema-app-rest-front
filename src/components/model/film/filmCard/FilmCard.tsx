@@ -44,12 +44,12 @@ const useStyles = makeStyles({
 type Props = { [P in keyof FilmInfo]: FilmInfo[P] | undefined } & {
   isMobileSize: boolean
 } & Partial<{
-    handleClickCardBody: (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    ) => void
     handleClickFavoIcon: (
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => void
+    handleClickFilmCard: (filmInfo: {
+      [P in keyof FilmInfo]: FilmInfo[P] | undefined
+    }) => void
   }>
 
 const FilmCard: FC<Props> = ({
@@ -62,7 +62,7 @@ const FilmCard: FC<Props> = ({
   poster_path,
   overview,
   original_title,
-  handleClickCardBody = () => {},
+  handleClickFilmCard = () => {},
   handleClickFavoIcon = () => {},
 }) => {
   const {
@@ -71,10 +71,22 @@ const FilmCard: FC<Props> = ({
     title: titleStyle,
     overview: overviewStyle,
   } = useStyles()
-  console.log(isMobileSize)
   return (
     <Card className={isMobileSize ? rootMobile : rootPC}>
-      <CardActionArea onClick={handleClickCardBody}>
+      <CardActionArea
+        onClick={() =>
+          handleClickFilmCard({
+            release_date,
+            title,
+            id,
+            backdrop_path,
+            genre_ids,
+            poster_path,
+            overview,
+            original_title,
+          })
+        }
+      >
         <CardMedia title='Your title'>
           <div
             style={{

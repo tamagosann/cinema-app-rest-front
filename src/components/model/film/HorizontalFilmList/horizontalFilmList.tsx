@@ -42,9 +42,16 @@ const skeletonFilmCardProps = {
 type Props = {
   filmList: FilmInfo[] | undefined
   isMobileSize?: boolean
+  handleClickFilmCard: (filmInfo: {
+    [P in keyof FilmInfo]: FilmInfo[P] | undefined
+  }) => void
 }
 
-const HorizontalFilmList: FC<Props> = ({ filmList, isMobileSize = false }) => {
+const HorizontalFilmList: FC<Props> = ({
+  filmList,
+  isMobileSize = false,
+  handleClickFilmCard,
+}) => {
   const {
     filmCardListRoot,
     filmCardBoxMobile,
@@ -62,7 +69,10 @@ const HorizontalFilmList: FC<Props> = ({ filmList, isMobileSize = false }) => {
                 key={filmInfo.id}
                 className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
               >
-                <FilmCard {...filmInfo} {...{ isMobileSize }} />
+                <FilmCard
+                  {...filmInfo}
+                  {...{ isMobileSize, handleClickFilmCard }}
+                />
               </Box>
             )
           })}
@@ -78,7 +88,10 @@ const HorizontalFilmList: FC<Props> = ({ filmList, isMobileSize = false }) => {
                 key={index}
                 className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
               >
-                <FilmCard {...skeletonFilmCardProps} {...{ isMobileSize }} />
+                <FilmCard
+                  {...skeletonFilmCardProps}
+                  {...{ isMobileSize, handleClickFilmCard }}
+                />
               </Box>
             )
           })}
