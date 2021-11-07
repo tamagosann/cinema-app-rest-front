@@ -1,5 +1,4 @@
 export const API_KEY = process.env.API_KEY || process.env.NEXT_PUBLIC_API_KEY
-
 export const DISCOVER_FILM_URL = `/discover/movie?api_key=${API_KEY}`
 export const TMDB_HOST = 'https://api.themoviedb.org/3'
 export const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/'
@@ -97,6 +96,13 @@ export const genres: Genre[] = [
 
 export const getGenreID = (genre: string) => {
   genres.find((_genre) => _genre.genreName === '')
+}
+
+export const getGenreName = (genreId: number): string | undefined => {
+  const genre = genres.find((_genre) => {
+    return _genre.id === genreId
+  })
+  return genre?.genreName
 }
 
 ///   まずは、ここらへんのAPIの仕様を変える

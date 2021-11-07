@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix src",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
     "prepare": "husky install",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook"
   },
   "eslintConfig": {
@@ -29,10 +29,16 @@
     "react-dom": "17.0.2",
     "react-infinite-scroller": "^1.2.4",
     "react-responsive": "^9.0.0-beta.4",
+    "swr": "^1.0.1",
     "yarn": "^1.22.15"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-console": "^1.2.3",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/react": "^6.3.12",
     "@types/react": "17.0.27",
     "@types/react-infinite-scroller": "^1.2.2",
     "babel-loader": "^8.2.2",
@@ -42,6 +48,8 @@
     "husky": "^7.0.0",
     "lint-staged": "^11.2.3",
     "prettier": "^2.4.1",
+    "storybook-addon-mock": "^1.6.0",
+    "ts-loader": "^9.2.6",
     "typescript": "4.4.3"
   },
   "lint-staged": {
