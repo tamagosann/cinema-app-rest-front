@@ -20,11 +20,11 @@ const TopView: FC<Props> = ({ genreIds, isMobileSize }) => {
   return (
     <>
       <Box p={1}>
-        {genreIds.map((genreId) => {
+        {genreIds.map((genreId, index) => {
           return (
             <Box key={genreId}>
               <HorizontalFilmListWithGenre
-                {...{ genreId, isMobileSize, handleClickFilmCard }}
+                {...{ genreId, isMobileSize, handleClickFilmCard, index }}
               />
             </Box>
           )

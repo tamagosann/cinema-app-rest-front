@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import React, { FC } from 'react'
+import React, { FC, useRef, useEffect } from 'react'
 import { FilmCard } from '../filmCard'
 import { FilmInfo } from 'types/dto/ssr'
 
@@ -45,12 +45,14 @@ type Props = {
   handleClickFilmCard: (filmInfo: {
     [P in keyof FilmInfo]: FilmInfo[P] | undefined
   }) => void
+  index: number
 }
 
 const HorizontalFilmList: FC<Props> = ({
   filmList,
   isMobileSize = false,
   handleClickFilmCard,
+  index,
 }) => {
   const {
     filmCardListRoot,
@@ -58,16 +60,33 @@ const HorizontalFilmList: FC<Props> = ({
     filmCardBoxPC,
     filmCardListStyle,
   } = useStyles()
+
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (
+      ref === null ||
+      ref.current === null ||
+      !index ||
+      index % 2 === 0 ||
+      index === 0
+    )
+      return
+    ref.current.scrollLeft = 100
+  }, [filmList, index, ref])
+
   return (
     <Box className={filmCardListRoot}>
-      <Box className={filmCardListStyle}>
+      <Box className={filmCardListStyle} ref={ref}>
         {!!filmList &&
           filmList.length > 0 &&
           filmList.map((filmInfo) => {
             return (
               <Box
                 key={filmInfo.id}
-                className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
+                className={`${
+                  isMobileSize ? filmCardBoxMobile : filmCardBoxPC
+                }`}
               >
                 <FilmCard
                   {...filmInfo}
