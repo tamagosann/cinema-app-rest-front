@@ -11,12 +11,14 @@ type Props = {
   handleClickFilmCard: (filmInfo: {
     [P in keyof FilmInfo]: FilmInfo[P] | undefined
   }) => void
+  index: number
 }
 
 const HorizontalFilmListWithGenre: FC<Props> = ({
   genreId,
   isMobileSize,
   handleClickFilmCard,
+  index,
 }) => {
   const {
     count,
@@ -45,6 +47,7 @@ const HorizontalFilmListWithGenre: FC<Props> = ({
           isMobileSize,
           handleClickFilmCard,
           handleClickLoadMoreButton,
+          index,
         }}
       />
     </Box>
