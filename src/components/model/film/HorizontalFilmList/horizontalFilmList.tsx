@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React, { FC, useRef, useEffect } from 'react'
 import { FilmCard } from '../filmCard'
-import { ArrowButton } from 'components/UIKit/ArrowButton'
 import { FilmInfo } from 'types/dto/ssr'
 
 const useStyles = makeStyles((theme) => ({
@@ -41,13 +40,14 @@ const skeletonFilmCardProps = {
 }
 
 type Props = {
-  filmList: FilmInfo[] | undefined
+  filmList: (FilmInfo | undefined)[] | undefined
   isMobileSize?: boolean
   handleClickFilmCard: (filmInfo: {
     [P in keyof FilmInfo]: FilmInfo[P] | undefined
   }) => void
   handleClickLoadMoreButton: () => Promise<any[] | undefined>
   index: number
+  isValidating: boolean
 }
 
 const HorizontalFilmList: FC<Props> = ({
@@ -56,6 +56,7 @@ const HorizontalFilmList: FC<Props> = ({
   handleClickFilmCard,
   handleClickLoadMoreButton,
   index,
+  isValidating,
 }) => {
   const {
     filmCardListRoot,
@@ -78,43 +79,61 @@ const HorizontalFilmList: FC<Props> = ({
     ref.current.scrollLeft = 100
   }, [filmList, index, ref])
 
+  const onScroll = (e: React.UIEvent<React.ReactNode>) => {
+    // as HTMLDivElement としないとtype errorになる
+    const target = e.target as HTMLDivElement
+
+    const scrollRight =
+      target.scrollWidth - (target.scrollLeft + target.clientWidth)
+
+    // filmListがundefined、つまり読み込み時かエラー時にはreturnさせないとブラウザの負荷がやばくなる。
+    if (filmList === undefined || filmList[0] === undefined) return
+
+    // validation中（新規でfetch中も発動させない）
+    if (isValidating) return
+
+    if (isMobileSize) {
+      if (scrollRight < 500) handleClickLoadMoreButton()
+    } else {
+      if (scrollRight < 900) handleClickLoadMoreButton()
+    }
+  }
+
   return (
     <Box className={filmCardListRoot}>
-      <Box className={filmCardListStyle} ref={ref}>
+      <Box className={filmCardListStyle} ref={ref} onScroll={onScroll}>
         {!!filmList &&
           !!filmList[0] &&
           filmList.length > 0 &&
-          filmList.map((filmInfo) => {
+          filmList.map((filmInfo, index) => {
             return (
               <Box
-                key={filmInfo.id}
+                key={filmInfo?.id || index}
                 className={`${
                   isMobileSize ? filmCardBoxMobile : filmCardBoxPC
                 }`}
               >
                 <FilmCard
-                  {...filmInfo}
+                  {...(filmInfo as FilmInfo)}
                   {...{ isMobileSize, handleClickFilmCard }}
                 />
               </Box>
             )
           })}
-        {!filmList ||
-          (filmList[0] === undefined &&
-            [...Array(20)].map((_: undefined, index: number) => {
-              return (
-                <Box
-                  key={index}
-                  className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
-                >
-                  <FilmCard
-                    {...skeletonFilmCardProps}
-                    {...{ isMobileSize, handleClickFilmCard }}
-                  />
-                </Box>
-              )
-            }))}
-        <ArrowButton handleClick={handleClickLoadMoreButton} />
+        {(!filmList || filmList[0] === undefined || isValidating) &&
+          [...Array(20)].map((_: undefined, index: number) => {
+            return (
+              <Box
+                key={index}
+                className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
+              >
+                <FilmCard
+                  {...skeletonFilmCardProps}
+                  {...{ isMobileSize, handleClickFilmCard }}
+                />
+              </Box>
+            )
+          })}
       </Box>
     </Box>
   )

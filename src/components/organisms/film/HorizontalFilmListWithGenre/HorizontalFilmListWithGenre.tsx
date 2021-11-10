@@ -26,7 +26,9 @@ const HorizontalFilmListWithGenre: FC<Props> = ({
     error,
     size,
     setSize,
+    isValidating,
   } = useFilmList({ genreId })
+
   const genreName = getGenreName(genreId)
   console.log(filmList)
 
@@ -48,6 +50,7 @@ const HorizontalFilmListWithGenre: FC<Props> = ({
           handleClickFilmCard,
           handleClickLoadMoreButton,
           index,
+          isValidating,
         }}
       />
     </Box>

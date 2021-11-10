@@ -1,6 +1,4 @@
-import useSWR from 'swr'
 import useSWRInfinite from 'swr/infinite'
-import { FilmInfo } from 'types/dto/ssr'
 import { FetchFilmsByfilmIdDTO } from 'types/film'
 import { DISCOVER_FILM_URL, TMDB_HOST } from 'utils/filmRequests'
 
@@ -12,7 +10,7 @@ const fetcher = (url: string) =>
   fetch(url)
     .then((res: Response) => res.json())
     .then((res: FetchFilmsByfilmIdDTO) => res.results)
-    .catch((err) => err)
+    .catch(() => undefined)
 
 export const useFilmList = ({ genreId }: Props) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
@@ -22,8 +20,10 @@ export const useFilmList = ({ genreId }: Props) => {
     }`
   }
 
-  const { data, error, size, setSize } = useSWRInfinite(getKey, fetcher)
-
+  const { data, error, size, setSize, isValidating } = useSWRInfinite(
+    getKey,
+    fetcher,
+  )
   // const url = `${TMDB_HOST}${DISCOVER_FILM_URL}&with_genres=${genreId}`
   // const { data, error } = useSWR<FilmInfo[], Error>(url, fetcher, {
   //   revalidateIfStale: true,
@@ -36,5 +36,6 @@ export const useFilmList = ({ genreId }: Props) => {
     data: data?.flat(),
     size,
     setSize,
+    isValidating,
   }
 }
