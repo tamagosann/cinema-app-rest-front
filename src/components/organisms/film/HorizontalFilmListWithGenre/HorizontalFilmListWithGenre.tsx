@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/material'
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import { HorizontalFilmList } from 'components/model/film/HorizontalFilmList'
 import { useFilmList } from 'hooks/useFilmList'
 import { FilmInfo } from 'types/dto/ssr'
@@ -18,9 +18,20 @@ const HorizontalFilmListWithGenre: FC<Props> = ({
   isMobileSize,
   handleClickFilmCard,
 }) => {
-  const { count, data: filmList, error } = useFilmList({ genreId })
+  const {
+    count,
+    data: filmList,
+    error,
+    size,
+    setSize,
+  } = useFilmList({ genreId })
   const genreName = getGenreName(genreId)
   console.log(filmList)
+
+  const handleClickLoadMoreButton = useCallback(
+    () => setSize(size + 1),
+    [size, setSize],
+  )
 
   if (error) return <Box>Error occered</Box>
   return (
@@ -29,7 +40,12 @@ const HorizontalFilmListWithGenre: FC<Props> = ({
         {genreName ? genreName : 'ジャンル名'}
       </Typography>
       <HorizontalFilmList
-        {...{ filmList, isMobileSize, handleClickFilmCard }}
+        {...{
+          filmList,
+          isMobileSize,
+          handleClickFilmCard,
+          handleClickLoadMoreButton,
+        }}
       />
     </Box>
   )

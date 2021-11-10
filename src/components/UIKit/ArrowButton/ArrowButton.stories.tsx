@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { ArrowButton } from '.'
-import { stabFilmData } from 'common/test_mock/stabData'
 import MuiThemeProvider from 'hooks/theme'
 
 export default {
