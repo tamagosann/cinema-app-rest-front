@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React, { FC, useRef, useEffect } from 'react'
 import { FilmCard } from '../filmCard'
+import { ArrowButton } from 'components/UIKit/ArrowButton'
 import { FilmInfo } from 'types/dto/ssr'
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +46,7 @@ type Props = {
   handleClickFilmCard: (filmInfo: {
     [P in keyof FilmInfo]: FilmInfo[P] | undefined
   }) => void
+  handleClickLoadMoreButton: () => Promise<any[] | undefined>
   index: number
 }
 
@@ -52,6 +54,7 @@ const HorizontalFilmList: FC<Props> = ({
   filmList,
   isMobileSize = false,
   handleClickFilmCard,
+  handleClickLoadMoreButton,
   index,
 }) => {
   const {
@@ -79,6 +82,7 @@ const HorizontalFilmList: FC<Props> = ({
     <Box className={filmCardListRoot}>
       <Box className={filmCardListStyle} ref={ref}>
         {!!filmList &&
+          !!filmList[0] &&
           filmList.length > 0 &&
           filmList.map((filmInfo) => {
             return (
@@ -95,25 +99,22 @@ const HorizontalFilmList: FC<Props> = ({
               </Box>
             )
           })}
-        {!!filmList && filmList.length > 0 && (
-          <Box className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}>
-            <FilmCard {...skeletonFilmCardProps} {...{ isMobileSize }} />
-          </Box>
-        )}
-        {!filmList &&
-          [...Array(20)].map((_: undefined, index: number) => {
-            return (
-              <Box
-                key={index}
-                className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
-              >
-                <FilmCard
-                  {...skeletonFilmCardProps}
-                  {...{ isMobileSize, handleClickFilmCard }}
-                />
-              </Box>
-            )
-          })}
+        {!filmList ||
+          (filmList[0] === undefined &&
+            [...Array(20)].map((_: undefined, index: number) => {
+              return (
+                <Box
+                  key={index}
+                  className={isMobileSize ? filmCardBoxMobile : filmCardBoxPC}
+                >
+                  <FilmCard
+                    {...skeletonFilmCardProps}
+                    {...{ isMobileSize, handleClickFilmCard }}
+                  />
+                </Box>
+              )
+            }))}
+        <ArrowButton handleClick={handleClickLoadMoreButton} />
       </Box>
     </Box>
   )
