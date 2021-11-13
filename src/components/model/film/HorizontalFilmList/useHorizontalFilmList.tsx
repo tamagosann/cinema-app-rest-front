@@ -46,10 +46,6 @@ const useHorizontalFilmList = ({
 
     if (!filmList) return
 
-    const ListWidth = isMobileSize
-      ? filmList.length * 200
-      : filmList.length * 200
-
     const scrollRight = filmList.length * 200 - scrollOffset
     console.log(scrollRight)
 
