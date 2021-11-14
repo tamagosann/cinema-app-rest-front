@@ -1,7 +1,9 @@
 import { Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC, useRef, useEffect, CSSProperties } from 'react'
+import { FixedSizeList as List } from 'react-window'
 import { FilmCard } from '../filmCard'
+import useHorizontalFilmList from './useHorizontalFilmList'
 import { FilmInfo } from 'types/dto/ssr'
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +41,7 @@ const skeletonFilmCardProps = {
   original_title: undefined,
 }
 
-type Props = {
+export type HorizontalFilmListProps = {
   filmList: (FilmInfo | undefined)[] | undefined
   isMobileSize?: boolean
   handleClickFilmCard: (filmInfo: {
@@ -50,7 +52,7 @@ type Props = {
   isValidating: boolean
 }
 
-const HorizontalFilmList: FC<Props> = ({
+const HorizontalFilmList: FC<HorizontalFilmListProps> = ({
   filmList,
   isMobileSize = false,
   handleClickFilmCard,
@@ -65,44 +67,70 @@ const HorizontalFilmList: FC<Props> = ({
     filmCardListStyle,
   } = useStyles()
 
-  const ref = useRef<HTMLDivElement>(null)
+  const { ref, onScroll } = useHorizontalFilmList({
+    filmList,
+    isMobileSize,
+    handleClickFilmCard,
+    handleClickLoadMoreButton,
+    index,
+    isValidating,
+  })
 
-  useEffect(() => {
-    if (
-      ref === null ||
-      ref.current === null ||
-      !index ||
-      index % 2 === 0 ||
-      index === 0
-    )
-      return
-    ref.current.scrollLeft = 100
-  }, [filmList, index, ref])
-
-  const onScroll = (e: React.UIEvent<React.ReactNode>) => {
-    // as HTMLDivElement としないとtype errorになる
-    const target = e.target as HTMLDivElement
-
-    const scrollRight =
-      target.scrollWidth - (target.scrollLeft + target.clientWidth)
-
-    // filmListがundefined、つまり読み込み時かエラー時にはreturnさせないとブラウザの負荷がやばくなる。
-    if (filmList === undefined || filmList[0] === undefined) return
-
-    // validation中（新規でfetch中も発動させない）
-    if (isValidating) return
-
-    if (isMobileSize) {
-      if (scrollRight < 500) handleClickLoadMoreButton()
-    } else {
-      if (scrollRight < 900) handleClickLoadMoreButton()
+  const Row = ({
+    index,
+    style,
+    data,
+  }: {
+    index: number
+    style: CSSProperties
+    data: {
+      filmList: {
+        [P in keyof FilmInfo]: FilmInfo[P] | undefined
+      }[]
+      isMobileSize: boolean
+      handleClickFilmCard: (filmInfo: {
+        [P in keyof FilmInfo]: FilmInfo[P] | undefined
+      }) => void
     }
+  }) => {
+    const { filmList, isMobileSize, handleClickFilmCard } = data
+    const filmInfo = filmList[index]
+    return (
+      <Box
+        key={filmInfo?.id || index}
+        className={`${isMobileSize ? filmCardBoxMobile : filmCardBoxPC}`}
+        style={style}
+      >
+        <FilmCard
+          {...(filmInfo as FilmInfo)}
+          {...{ isMobileSize, handleClickFilmCard }}
+        />
+      </Box>
+    )
   }
 
   return (
     <Box className={filmCardListRoot}>
-      <Box className={filmCardListStyle} ref={ref} onScroll={onScroll}>
-        {!!filmList &&
+      <Box className={filmCardListStyle}>
+        {!!filmList && filmList.length > 0 && (
+          <List
+            height={112.5 + 16}
+            itemCount={filmList.length}
+            itemSize={200}
+            width={366}
+            layout='horizontal'
+            itemData={{
+              filmList: filmList as FilmInfo[],
+              isMobileSize,
+              handleClickFilmCard,
+            }}
+            onScroll={onScroll}
+          >
+            {Row}
+          </List>
+        )}
+
+        {/* {!!filmList &&
           !!filmList[0] &&
           filmList.length > 0 &&
           filmList.map((filmInfo, index) => {
@@ -119,7 +147,7 @@ const HorizontalFilmList: FC<Props> = ({
                 />
               </Box>
             )
-          })}
+          })} */}
         {(!filmList || filmList[0] === undefined || isValidating) &&
           [...Array(20)].map((_: undefined, index: number) => {
             return (
