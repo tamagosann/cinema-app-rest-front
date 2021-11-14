@@ -28,14 +28,14 @@ import { useRouter } from 'next/dist/client/router'
 import Image from 'next/image'
 import React, { FC, useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroller'
-import { genres, requests } from '../utils/filmRequests'
+import { FilmList, TopSsrDto } from 'types/dto/ssr'
 import {
   TMDB_IMAGE_URL,
   TMDB_HOST,
   DISCOVER_FILM_URL,
   Genre,
-} from '../utils/filmRequests'
-import { FilmList, TopSsrDto } from 'types/dto/ssr'
+} from 'utils/filmRequests'
+import { genres, requests } from 'utils/filmRequests'
 
 const totalPage = 1000
 
@@ -372,6 +372,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     query: { genre = '', search = '' },
   } = context
+  console.log('genre')
+  console.log(genre)
+  console.log('search')
+  console.log(search)
 
   let genreQuery: string
   if (!genre) {
@@ -389,12 +393,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     search ? `${genreQuery ? '&' : ''}with_keywords=${search}` : ''
   }`
 
+  console.log(requestUrl)
+
   const { results: filmList } = await fetch(encodeURI(requestUrl)).then(
     (res) => {
       return res.json()
     },
   )
-  console.log(filmList)
 
   return {
     props: {

@@ -14,7 +14,7 @@ import { Box } from '@mui/system'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Image from 'next/image'
 import { FC } from 'react'
-import { requests } from '../utils/requests'
+import { requests } from '../utils/filmRequests'
 import { BASE_URL } from 'common/urls'
 
 type ServerSideProps = InferGetServerSidePropsType<typeof getServerSideProps>
@@ -115,18 +115,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     query: { genre },
   } = context
-  console.log(genre)
 
   const requestUrl =
     Array.isArray(genre) || genre === undefined
       ? requests.fetchTrending.url
       : requests[genre]?.url
 
-  console.log(requestUrl)
-
   const request = await fetch(`https://api.themoviedb.org/3${requestUrl}`).then(
     (res) => res.json(),
   )
+
+  console.log(request)
 
   return {
     props: {
