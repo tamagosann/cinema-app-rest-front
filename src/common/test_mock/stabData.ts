@@ -1,6 +1,6 @@
 export const stabFilmData = {
-  // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
-  backdrop_path: '',
+  backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
+  // backdrop_path: '',
   genre_ids: [28, 35, 12],
   id: 772436,
   original_title: 'Matando Cabos 2: La Máscara del Máscara',
