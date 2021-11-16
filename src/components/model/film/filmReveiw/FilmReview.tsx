@@ -4,21 +4,16 @@ import { Box } from '@mui/system'
 import React, { FC, useMemo } from 'react'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { UserIcon } from 'components/model/user/userIcon'
+import { FilmReviewType } from 'types/film'
 
-type Props = {
+type Props = FilmReviewType & {
   isMobileSize: boolean
-  userIconUrl: string
-  username: string
-  userIconColor: string
-  star: number
-  reviewTitle: string
-  reviewDate: number
-  overview: string
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: 'flex',
+    marginBottom: theme.spacing(1),
   },
   topRoot: {
     padding: theme.spacing(1),
