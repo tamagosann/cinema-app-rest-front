@@ -4,7 +4,7 @@ import React, { useState, FC } from 'react'
 
 type Props = {
   value: number | null
-  onChange: (
+  onChange?: (
     event: React.SyntheticEvent<Element, Event>,
     newValue: number | null,
   ) => void
@@ -29,6 +29,7 @@ const FiveStars: FC<Props> = ({
       emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
       size={size}
       readOnly={readonly}
+      style={{ verticalAlign: 'text-top' }}
     />
   )
 }
