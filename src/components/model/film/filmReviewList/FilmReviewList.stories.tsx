@@ -1,9 +1,10 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { FilmReviewList } from '.'
-import { stabFilmData } from 'common/test_mock/stabData'
-import { stabReviewList } from 'common/test_mock/stabReviewData'
+import {
+  loadingReviewList,
+  stabReviewList,
+} from 'common/test_mock/stabReviewData'
 import MuiThemeProvider from 'hooks/theme'
-import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 
 export default {
   title: 'Film/FilmReviewList',
@@ -25,8 +26,20 @@ Mobile.args = {
   reviewList: stabReviewList,
 }
 
+export const MobileLoading = Template.bind({})
+MobileLoading.args = {
+  isMobileSize: true,
+  reviewList: loadingReviewList,
+}
+
 export const PC = Template.bind({})
 PC.args = {
   isMobileSize: false,
   reviewList: stabReviewList,
+}
+
+export const PCLoading = Template.bind({})
+PCLoading.args = {
+  isMobileSize: false,
+  reviewList: loadingReviewList,
 }

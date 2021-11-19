@@ -31,6 +31,17 @@ Mobile.args = {
   overview:
     'Faced with the unexpected death of his estranged father -El Máscara- and the subsequent theft of his precious mask, Rubén -Mascarita- will find himself confronted with his past. Alongside his invincible bodyguard Tony "The Cannibal" and, an unexpected ally, he will have only one day to recover it and make amends with the memory of his father.',
 }
+export const MobileLoading = Template.bind({})
+MobileLoading.args = {
+  isMobileSize: true,
+  userIconUrl: undefined,
+  username: undefined,
+  userIconColor: undefined,
+  star: undefined,
+  reviewDate: undefined,
+  reviewTitle: undefined,
+  overview: undefined,
+}
 
 export const PC = Template.bind({})
 PC.args = {
@@ -44,4 +55,16 @@ PC.args = {
     'Faced with the unexpected death of his estranged father -El Máscara- and the subsequent theft of his precious mask, Rubén -Mascarita- will find himself confronted with his past. Alongside his invincible bodyguard Tony "The Cannibal" and, an unexpected ally, he will have only one day to recover it and make amends with the memory of his father.',
   overview:
     'Faced with the unexpected death of his estranged father -El Máscara- and the subsequent theft of his precious mask, Rubén -Mascarita- will find himself confronted with his past. Alongside his invincible bodyguard Tony "The Cannibal" and, an unexpected ally, he will have only one day to recover it and make amends with the memory of his father.',
+}
+
+export const PCLoading = Template.bind({})
+PCLoading.args = {
+  isMobileSize: false,
+  userIconUrl: undefined,
+  username: undefined,
+  userIconColor: undefined,
+  star: undefined,
+  reviewDate: undefined,
+  reviewTitle: undefined,
+  overview: undefined,
 }

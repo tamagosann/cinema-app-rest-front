@@ -1,12 +1,13 @@
-import { Button, Theme, Typography } from '@mui/material'
+import { Button, Skeleton, Theme, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 import React, { FC, useMemo } from 'react'
+import useFilmReview from './FilmReview.hooks'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { UserIcon } from 'components/model/user/userIcon'
 import { FilmReviewType } from 'types/film'
 
-type Props = FilmReviewType & {
+type Props = Partial<FilmReviewType> & {
   isMobileSize: boolean
 }
 
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   topRoot: {
     padding: theme.spacing(1),
+    alignItems: 'flex-end',
     paddingTop: 0,
   },
   topItem: {
@@ -76,48 +78,73 @@ const FilmReview: FC<Props> = ({
     overview: overviewStyle,
   } = useStyles()
 
-  const starToShow = useMemo(() => {
-    return star.toFixed(1)
-  }, [star])
-
-  // TODO: ここは後でカスタムフック化する
-  const reviewDateObject = new Date(reviewDate)
-  const year = reviewDateObject.getFullYear()
-  const month = reviewDateObject.getMonth() + 1
-  const day = reviewDateObject.getDate()
-
-  const reviewDateToShow = `${year}/${month}/${day}`
+  const { starToShow, reviewDateToShow } = useFilmReview({
+    star,
+    reviewDate,
+  })
 
   return (
     <>
       <Box className={root}>
         <Box>
-          <UserIcon
-            width={isMobileSize ? 50 : 100}
-            src={userIconUrl}
-            alt={username}
-            color={userIconColor}
-          />
+          {!userIconUrl ? (
+            <Skeleton
+              width={isMobileSize ? 50 : 100}
+              height={isMobileSize ? 50 : 100}
+              variant='circular'
+            />
+          ) : (
+            <UserIcon
+              width={isMobileSize ? 50 : 100}
+              src={userIconUrl}
+              alt={username as string}
+              color={userIconColor ? userIconColor : 'black'}
+            />
+          )}
         </Box>
         <Box className={flex1}>
           <Box display='flex' className={topRoot}>
-            <Box className={topItem}>
-              <FiveStars
-                value={star}
-                readonly
-                size={isMobileSize ? 'small' : 'medium'}
-              />
-            </Box>
-            <Box className={topItemNumber}>{starToShow}</Box>
-            <Box className={topItemNumber}>{`${reviewDateToShow} に投稿`}</Box>
+            {!star || !starToShow || !reviewDate ? (
+              <Skeleton width='100%' height={isMobileSize ? 24 : 27} />
+            ) : (
+              <>
+                <Box className={topItem}>
+                  <FiveStars
+                    value={star}
+                    readonly
+                    size={isMobileSize ? 'small' : 'medium'}
+                  />
+                </Box>
+                <Box className={topItemNumber}>{starToShow}</Box>
+                <Box
+                  className={topItemNumber}
+                >{`${reviewDateToShow} に投稿`}</Box>
+              </>
+            )}
           </Box>
-          <Typography variant='caption' className={titleStyle}>
-            {username} さん
-          </Typography>
-          <Typography variant='subtitle1' className={titleStyle}>
-            {reviewTitle}
-          </Typography>
-          <Typography className={overviewStyle}>{overview}</Typography>
+          {username ? (
+            <Typography variant='caption' className={titleStyle}>
+              {username}　さん
+            </Typography>
+          ) : (
+            <Skeleton width={50} component='span' style={{ marginLeft: 8 }} />
+          )}
+          {!reviewTitle ? (
+            <Typography variant='subtitle1' className={titleStyle}>
+              <Skeleton height={28} component='div' />
+            </Typography>
+          ) : (
+            <Typography variant='subtitle1' className={titleStyle}>
+              {reviewTitle}
+            </Typography>
+          )}
+          {!overview ? (
+            <Typography className={overviewStyle} height={72}>
+              <Skeleton height={'100%'} />
+            </Typography>
+          ) : (
+            <Typography className={overviewStyle}>{overview}</Typography>
+          )}
           <Button>続きを見る</Button>
         </Box>
       </Box>

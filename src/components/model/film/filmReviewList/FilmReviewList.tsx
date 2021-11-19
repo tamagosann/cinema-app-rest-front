@@ -7,7 +7,7 @@ import { FilmReviewType } from 'types/film'
 
 type Props = {
   isMobileSize: boolean
-  reviewList: FilmReviewType[]
+  reviewList: Partial<FilmReviewType>[]
 }
 // TODO: lastChildのdividerを消すcssを探す（useStylesでうまく動かないっぽい？）
 const FilmReviewList: FC<Props> = ({ reviewList, isMobileSize }) => {
