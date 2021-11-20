@@ -27,6 +27,42 @@ export const loadingReview = {
   overview: undefined,
 }
 
+export const loadingReviewList3 = [
+  {
+    id: '0001',
+    isMobileSize: undefined,
+    userIconUrl: undefined,
+    username: undefined,
+    userIconColor: undefined,
+    star: undefined,
+    reviewDate: undefined,
+    reviewTitle: undefined,
+    overview: undefined,
+  },
+  {
+    id: '0002',
+    isMobileSize: undefined,
+    userIconUrl: undefined,
+    username: undefined,
+    userIconColor: undefined,
+    star: undefined,
+    reviewDate: undefined,
+    reviewTitle: undefined,
+    overview: undefined,
+  },
+  {
+    id: '0003',
+    isMobileSize: undefined,
+    userIconUrl: undefined,
+    username: undefined,
+    userIconColor: undefined,
+    star: undefined,
+    reviewDate: undefined,
+    reviewTitle: undefined,
+    overview: undefined,
+  },
+]
+
 export const loadingReviewList = [
   { ...loadingReview, id: '0001' },
   { ...loadingReview, id: '0002' },

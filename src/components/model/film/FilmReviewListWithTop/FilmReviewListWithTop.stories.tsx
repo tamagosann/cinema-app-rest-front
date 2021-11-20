@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { FilmReviewList } from '.'
+import { FilmReviewListWithTop } from '.'
 import {
   loadingReviewList,
   stabReviewList,
@@ -7,16 +7,16 @@ import {
 import MuiThemeProvider from 'hooks/theme'
 
 export default {
-  title: 'Film/FilmReviewListWithSwr',
-  component: FilmReviewList,
+  title: 'Film/FilmReviewListWithTop',
+  component: FilmReviewListWithTop,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof FilmReviewList>
+} as ComponentMeta<typeof FilmReviewListWithTop>
 
-const Template: ComponentStory<typeof FilmReviewList> = (args: any) => (
+const Template: ComponentStory<typeof FilmReviewListWithTop> = (args: any) => (
   <MuiThemeProvider>
-    <FilmReviewList {...args} />
+    <FilmReviewListWithTop {...args} />
   </MuiThemeProvider>
 )
 
@@ -30,17 +30,20 @@ Mobile.args = {
 export const MobileLoading = Template.bind({})
 MobileLoading.args = {
   isMobileSize: true,
+  averageStar: 3.5,
   // reviewList: loadingReviewList,
 }
 
 export const PC = Template.bind({})
 PC.args = {
   isMobileSize: false,
+  averageStar: 3.5,
   // reviewList: stabReviewList,
 }
 
 export const PCLoading = Template.bind({})
 PCLoading.args = {
   isMobileSize: false,
+  averageStar: 3.5,
   // reviewList: loadingReviewList,
 }
