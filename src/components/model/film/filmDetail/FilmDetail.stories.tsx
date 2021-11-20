@@ -1,11 +1,11 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import { FilmDetail } from '.'
-import { stabFilmDataList } from 'common/test_mock/stabData'
+import { stabFilmData, stabFilmDataList } from 'common/test_mock/stabData'
 import MuiThemeProvider from 'hooks/theme'
 
 export default {
-  title: 'Views/Film Detail',
+  title: 'Film/Film Detail',
   component: FilmDetail,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -19,7 +19,10 @@ const Template: ComponentStory<typeof FilmDetail> = (args: any) => (
 )
 
 export const Mobile = Template.bind({})
-Mobile.args = { genreIds: [28, 12, 14, 35, 878, 16], isMobileSize: true }
+Mobile.args = { ...stabFilmData, isMobileSize: true }
+
+export const MobileLoading = Template.bind({})
+MobileLoading.args = { isMobileSize: true }
 
 export const PC = Template.bind({})
 PC.args = { genreIds: [28, 12, 14, 35, 878, 16], isMobileSize: false }
