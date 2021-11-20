@@ -25,4 +25,7 @@ export const MobileLoading = Template.bind({})
 MobileLoading.args = { isMobileSize: true }
 
 export const PC = Template.bind({})
-PC.args = { genreIds: [28, 12, 14, 35, 878, 16], isMobileSize: false }
+PC.args = { ...stabFilmData, isMobileSize: false }
+
+export const PCLoading = Template.bind({})
+PCLoading.args = { isMobileSize: false }
