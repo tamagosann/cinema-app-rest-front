@@ -14,3 +14,10 @@ export type FilmReviewType = {
   reviewDate: number
   overview: string
 }
+
+export type FetchFilmReviewsByFilmIdDTO = {
+  page: number
+  results: FilmReviewType[]
+  totalPages: number
+  totalResults: number
+}

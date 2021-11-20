@@ -6,6 +6,7 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     'storybook-addon-mock/register',
+    '@storybook/addon-jest',
   ],
   webpackFinal: async (baseConfig) => {
     baseConfig.resolve.modules = [

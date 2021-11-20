@@ -1,17 +1,25 @@
 import CreateIcon from '@mui/icons-material/Create'
-import { Button, Divider, Skeleton, Theme, Typography } from '@mui/material'
+import {
+  Button,
+  Divider,
+  Pagination,
+  Skeleton,
+  Theme,
+  Typography,
+} from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 import React, { FC } from 'react'
 import { loadingReviewList3 } from 'common/test_mock/stabReviewData'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { FilmReviewList as FilmReviewListModel } from 'components/model/film/filmReviewList'
-import { FilmReviewType } from 'types/film'
+import { useFilmReviewList } from 'hooks/useReviewList'
 
 type Props = {
   isMobileSize: boolean
   averageStar: number | undefined
-  reviewList: Partial<FilmReviewType>[] | undefined
+  // reviewList: Partial<FilmReviewType>[] | undefined
+  filmId: number
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,14 +36,28 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: {
     fontSize: 14,
   },
+  pagination: {
+    '& > ul': {
+      justifyContent: 'center',
+    },
+  },
 }))
 
-const FilmReviewList: FC<Props> = ({
+const FilmReviewListWithTop: FC<Props> = ({
   averageStar,
   isMobileSize,
-  reviewList,
+  filmId,
 }) => {
-  const { divider, mb1, button, flexItem } = useStyles()
+  const { divider, mb1, button, flexItem, pagination } = useStyles()
+
+  const {
+    error,
+    totalPage,
+    data: reviewList,
+    totalResults,
+    page,
+    setPage,
+  } = useFilmReviewList({ filmId })
 
   const reviewListToShow = !reviewList ? loadingReviewList3 : reviewList
 
@@ -88,8 +110,18 @@ const FilmReviewList: FC<Props> = ({
       <FilmReviewListModel
         {...{ isMobileSize, reviewList: reviewListToShow }}
       />
+      <Box textAlign='center'>
+        <Pagination
+          color='primary'
+          className={pagination}
+          count={totalPage}
+          size={isMobileSize ? 'small' : 'medium'}
+          page={page}
+          onChange={(e, page) => setPage(page)}
+        />
+      </Box>
     </>
   )
 }
 
-export default FilmReviewList
+export default FilmReviewListWithTop
