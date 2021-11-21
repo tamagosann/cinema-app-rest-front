@@ -22,7 +22,7 @@ const FilmDetail: FC<Props> = ({
 }) => {
   const showingDate = !release_date
     ? undefined
-    : release_date.replaceAll('-', '/')
+    : release_date.replace(/-/g, '/')
   return (
     <>
       <Box>

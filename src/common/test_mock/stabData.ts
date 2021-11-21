@@ -10,6 +10,7 @@ export const stabFilmData = {
   poster_path: '',
   release_date: '2021-10-01',
   title: 'Matando Cabos 2',
+  averageStar: 3.5,
 }
 
 //２０件デモ

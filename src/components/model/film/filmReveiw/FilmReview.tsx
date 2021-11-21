@@ -1,11 +1,12 @@
 import { Button, Skeleton, Theme, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import useFilmReview from './FilmReview.hooks'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { UserIcon } from 'components/model/user/userIcon'
 import { FilmReviewType } from 'types/film'
+import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 
 type Props = Partial<FilmReviewType> & {
   isMobileSize: boolean
@@ -55,6 +56,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     '-webkit-line-clamp': 3,
     '-webkit-box-orient': 'vertical',
     overflow: 'hidden',
+    transition: 'height 1s ease-out',
+  },
+  overviewShow: {
+    padding: theme.spacing(1),
+    paddingTop: 0,
+    paddingBottom: 0,
+    marginBottom: theme.spacing(1),
+    display: 'block',
+    '-webkit-line-clamp': 'none',
+    overflow: 'auto',
   },
 }))
 
@@ -76,12 +87,15 @@ const FilmReview: FC<Props> = ({
     title: titleStyle,
     flex1,
     overview: overviewStyle,
+    overviewShow,
   } = useStyles()
 
   const { starToShow, reviewDateToShow } = useFilmReview({
     star,
     reviewDate,
   })
+
+  const [showDetail, setShowDetail] = useState(false)
 
   return (
     <>
@@ -96,7 +110,7 @@ const FilmReview: FC<Props> = ({
           ) : (
             <UserIcon
               width={isMobileSize ? 50 : 100}
-              src={userIconUrl}
+              src={`${TMDB_IMAGE_URL}${userIconUrl}`}
               alt={username as string}
               color={userIconColor ? userIconColor : 'black'}
             />
@@ -143,9 +157,13 @@ const FilmReview: FC<Props> = ({
               <Skeleton height={'100%'} />
             </Typography>
           ) : (
-            <Typography className={overviewStyle}>{overview}</Typography>
+            <Typography
+              className={`${overviewStyle} ${showDetail && overviewShow}`}
+            >
+              {overview}
+            </Typography>
           )}
-          <Button>続きを見る</Button>
+          <Button onClick={() => setShowDetail(!showDetail)}>続きを見る</Button>
         </Box>
       </Box>
     </>

@@ -22,4 +22,5 @@ export type FilmInfo = {
   poster_path: string
   overview: string
   original_title: string
+  averageStar: number
 }
