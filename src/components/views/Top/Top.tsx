@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { useTop } from './useTop'
 import { FilmModal } from 'components/model/film/filmModal'
 import { HorizontalFilmListWithGenre } from 'components/organisms/film/HorizontalFilmListWithGenre'
+import { HorizontalPersonListWithHeader } from 'components/organisms/person/HorizontalPersonListWithHeader'
 
 type Props = {
   genreIds: number[]
@@ -19,7 +20,10 @@ const TopView: FC<Props> = ({ genreIds, isMobileSize }) => {
   } = useTop()
   return (
     <>
-      <Box p={1}>
+      <Box>
+        <HorizontalPersonListWithHeader />
+      </Box>
+      <Box>
         {genreIds.map((genreId, index) => {
           return (
             <Box key={genreId}>
