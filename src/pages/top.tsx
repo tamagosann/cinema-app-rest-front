@@ -9,6 +9,7 @@ type Props = {
 }
 
 const TopPage: FC<Props> = () => {
+  //ssr化も視野に入れ、genreIdなどはここから渡すことにする
   const { isMobileSize } = useSize()
   const stabProps = {
     genreIds: [28, 12, 14, 35, 878, 16],

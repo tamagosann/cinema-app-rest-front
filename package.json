@@ -12,7 +12,8 @@
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
     "prepare": "husky install",
     "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test:generate-output": "jest --json --outputFile=.jest-test-results.json"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +38,7 @@
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-console": "^1.2.3",
     "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-jest": "^6.3.12",
     "@storybook/addon-links": "^6.3.12",
     "@storybook/react": "^6.3.12",
     "@types/react": "17.0.27",

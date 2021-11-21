@@ -8,8 +8,13 @@ type Props = {
 
 const fetcher = (url: string) =>
   fetch(url)
-    .then((res: Response) => res.json())
-    .then((res: FetchFilmsByfilmIdDTO) => res.results)
+    .then((res: Response) => {
+      return res.json()
+    })
+    .then((res: FetchFilmsByfilmIdDTO) => {
+      console.log(res)
+      return res.results
+    })
     .catch(() => undefined)
 
 export const useFilmList = ({ genreId }: Props) => {

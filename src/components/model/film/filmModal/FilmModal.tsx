@@ -10,6 +10,7 @@ import { grey } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { FC } from 'react'
 import { FilmInfo } from 'types/dto/ssr'
 import { TMDB_IMAGE_URL } from 'utils/filmRequests'
@@ -117,59 +118,70 @@ const FilmModal: FC<Props> = ({
           keepMounted: true,
         }}
       >
-        <StyledBox
-          sx={{
-            position: 'absolute',
-            top: -drawerBleeding,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            visibility: 'visible',
-            right: 0,
-            left: 0,
+        <Link
+          href={{
+            pathname: '/film/[filmId]',
+            query: { filmId: id },
           }}
+          passHref
         >
-          <Puller />
-          <Typography
-            sx={{ p: 2, color: 'text.secondary' }}
-            className={titleStyle}
-          >
-            {title || original_title}
-          </Typography>
-        </StyledBox>
-        <StyledBox
-          sx={{
-            px: 2,
-            pb: 2,
-            width: '100%',
-          }}
-        >
-          <Box className={imgBox}>
-            {backdrop_path || poster_path ? (
-              <Box className={imgBoxInside}>
-                <Image
-                  alt={title || original_title}
-                  src={`${TMDB_IMAGE_URL}${backdrop_path || poster_path}`}
-                  layout='fill'
-                  objectFit='cover'
-                  placeholder='blur'
-                  blurDataURL='/loading-image.jpg'
-                />
+          <a>
+            <StyledBox
+              sx={{
+                position: 'absolute',
+                top: -drawerBleeding,
+                borderTopLeftRadius: 8,
+                borderTopRightRadius: 8,
+                visibility: 'visible',
+                right: 0,
+                left: 0,
+              }}
+            >
+              <Puller />
+              <Typography
+                sx={{ p: 2, color: 'text.secondary' }}
+                className={titleStyle}
+              >
+                {title || original_title}
+              </Typography>
+            </StyledBox>
+            <StyledBox
+              sx={{
+                px: 2,
+                pb: 2,
+                width: '100%',
+              }}
+            >
+              <Box className={imgBox}>
+                {backdrop_path || poster_path ? (
+                  <Box className={imgBoxInside}>
+                    <Image
+                      alt={title || original_title}
+                      src={`${TMDB_IMAGE_URL}${backdrop_path || poster_path}`}
+                      layout='fill'
+                      objectFit='cover'
+                      placeholder='blur'
+                      blurDataURL='/loading-image.jpg'
+                    />
+                  </Box>
+                ) : (
+                  <Box className={imgBoxInside}>
+                    <Skeleton variant='rectangular' height='100%' />
+                  </Box>
+                )}
               </Box>
-            ) : (
-              <Box className={imgBoxInside}>
-                <Skeleton variant='rectangular' height='100%' />
-              </Box>
-            )}
-          </Box>
-        </StyledBox>
-        <StyledBox
-          sx={{
-            px: 2,
-            pb: 2,
-          }}
-        >
-          <Typography className={overviewStyle}>{overview}</Typography>
-        </StyledBox>
+            </StyledBox>
+            <StyledBox
+              sx={{
+                px: 2,
+                pb: 2,
+              }}
+            >
+              <Typography className={overviewStyle}>{overview}</Typography>
+            </StyledBox>
+          </a>
+        </Link>
+
         <StyledBox
           sx={{
             px: 2,
