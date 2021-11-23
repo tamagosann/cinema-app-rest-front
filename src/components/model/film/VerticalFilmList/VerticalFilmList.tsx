@@ -1,12 +1,16 @@
 import { Grid } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { FilmCard } from '../filmCard'
 import { FilmInfo } from 'types/dto/ssr'
 
 type Props = {
-  filmList: FilmInfo[] | undefined
+  filmList: (FilmInfo | undefined)[] | undefined
   isValidating: boolean
+  handleClickFilmCard?: (filmInfo: {
+    [P in keyof FilmInfo]: FilmInfo[P] | undefined
+  }) => void
 }
 
 const VerticalFilmList: FC<Props> = ({ filmList, isValidating }) => {

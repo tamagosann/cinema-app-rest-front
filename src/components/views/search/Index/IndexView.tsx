@@ -25,6 +25,7 @@ import { Box } from '@mui/system'
 import React, { useState, useRef } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { SearchWithButton } from 'components/UIKit/searchWithButton'
+import { VerticalFilmListWithLabel } from 'components/organisms/film/VerticalFilmListWithLabel'
 import { Genre, genres } from 'utils/filmRequests'
 
 const useStyles = makeStyles({
@@ -182,7 +183,9 @@ const IndexView = () => {
             />
           </form>
         </Box>
-        <Box>{/* ここにりすとをいれる */}</Box>
+        <Box>
+          <VerticalFilmListWithLabel label={} genre={} keyword={} />
+        </Box>
       </Box>
     </>
   )

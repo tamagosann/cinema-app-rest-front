@@ -1,5 +1,7 @@
 export const API_KEY = process.env.API_KEY || process.env.NEXT_PUBLIC_API_KEY
 export const DISCOVER_FILM_URL = `/discover/movie?api_key=${API_KEY}`
+export const SEARCH_FILM_URL = `/search/movie?api_key=${API_KEY}`
+export const POPULAR_FILM_URL = `/trending/all/week?api_key=${API_KEY}`
 export const POPULAR_PERSON_URL = `/person/popular?api_key=${API_KEY}&language=en-US`
 export const SEARCH_PERSON_URL = `/search/person?api_key=${API_KEY}&language=en-US&include_adult=false`
 export const TMDB_HOST = 'https://api.themoviedb.org/3'
