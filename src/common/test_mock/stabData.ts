@@ -26,6 +26,7 @@ export const stabFilmDataList = [
     poster_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -39,6 +40,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -52,6 +54,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -65,6 +68,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -78,6 +82,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -91,6 +96,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -104,6 +110,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -117,6 +124,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -130,6 +138,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -143,6 +152,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -156,6 +166,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -169,6 +180,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -182,6 +194,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -195,6 +208,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -208,6 +222,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -221,6 +236,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -234,6 +250,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -247,6 +264,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -260,6 +278,7 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
   {
     // backdrop_path: '/5UmoOvOmnCHiJj3TAKVn7uNAKAW.jpg',
@@ -273,5 +292,6 @@ export const stabFilmDataList = [
     poster_path: '',
     release_date: '2021-10-01',
     title: 'Matando Cabos 2: La Máscara del Máscara',
+    averageStar: 3.5,
   },
 ]

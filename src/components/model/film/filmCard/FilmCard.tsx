@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 })
 
 // FilmInfoのプロパティにundefinedを足している
-type Props = { [P in keyof FilmInfo]: FilmInfo[P] | undefined } & {
+type Props = Partial<{ [P in keyof FilmInfo]: FilmInfo[P] | undefined }> & {
   isMobileSize: boolean
 } & Partial<{
     handleClickFavoIcon: (
@@ -84,6 +84,7 @@ const FilmCard: FC<Props> = ({
             poster_path,
             overview,
             original_title,
+            averageStar: 3,
           })
         }
       >

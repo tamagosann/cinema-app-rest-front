@@ -1,15 +1,23 @@
 import ClearIcon from '@mui/icons-material/Clear'
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
+import MovieIcon from '@mui/icons-material/Movie'
 import SavedSearchIcon from '@mui/icons-material/SavedSearch'
 import {
   FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Select,
   SelectChangeEvent,
   TextField,
   Theme,
+  ToggleButton,
+  ToggleButtonGroup,
   useTheme,
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
@@ -51,6 +59,7 @@ const MenuProps = {
 interface IFormInput {
   keyword: string
   genre: Genre[]
+  searchForWhat: 'people' | 'film'
 }
 
 const IndexView = () => {
@@ -58,7 +67,7 @@ const IndexView = () => {
 
   const theme = useTheme()
 
-  const { control, handleSubmit, getValues } = useForm<IFormInput>()
+  const { control, handleSubmit, getValues, setValue } = useForm<IFormInput>()
 
   //べつべつの検索をする。
   const onSubmitKeyword: SubmitHandler<IFormInput> = (data) => {
@@ -72,81 +81,108 @@ const IndexView = () => {
   return (
     <>
       <Box>
-        <form>
-          <Controller
-            name='keyword'
-            control={control}
-            defaultValue=''
-            render={({ field }) => (
-              <Box display='flex'>
-                <Box width='100%' className={textField}>
-                  <TextField
-                    {...field}
-                    label='search Actor or Film'
-                    placeholder='die hard'
-                    variant='outlined'
-                    fullWidth={true}
-                    InputProps={{
-                      endAdornment: (
-                        <IconButton
-                          onClick={() => {}}
-                          disabled={!getValues('keyword')}
-                        >
-                          <ClearIcon color='disabled' fontSize='small' />
-                        </IconButton>
-                      ),
+        <Box>
+          <form>
+            <Controller
+              name='searchForWhat'
+              control={control}
+              render={({ field }) => (
+                <FormControl component='fieldset' {...field}>
+                  <FormLabel component='legend'>
+                    What for do you want to search?
+                  </FormLabel>
+                  <RadioGroup row defaultValue='people'>
+                    <FormControlLabel
+                      value='people'
+                      control={<Radio />}
+                      label='people'
+                    />
+                    <FormControlLabel
+                      value='film'
+                      control={<Radio />}
+                      label='film'
+                    />
+                  </RadioGroup>
+                </FormControl>
+              )}
+            />
+            <Box sx={{ m: 1 }} />
+            <Controller
+              name='keyword'
+              control={control}
+              defaultValue=''
+              render={({ field }) => (
+                <Box display='flex'>
+                  <Box width='100%' className={textField}>
+                    <TextField
+                      {...field}
+                      label='search Actor or Film'
+                      placeholder='die hard'
+                      variant='outlined'
+                      fullWidth={true}
+                      InputProps={{
+                        endAdornment: (
+                          <IconButton
+                            onClick={() => {}}
+                            disabled={!getValues('keyword')}
+                          >
+                            <ClearIcon color='disabled' fontSize='small' />
+                          </IconButton>
+                        ),
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    style={{
+                      border: '1px solid rgba(0, 0, 0, 0.23)',
+                      borderLeft: 'none',
+                      borderRadius: '0 4px 4px 0',
+                      width: 56,
+                      flex: '0 0 auto',
                     }}
-                  />
+                  >
+                    <IconButton
+                      style={{ width: '100%', height: '100%' }}
+                      onClick={() => {
+                        handleSubmit(onSubmitKeyword)()
+                      }}
+                    >
+                      <SavedSearchIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
-                <Box
-                  style={{
-                    border: '1px solid rgba(0, 0, 0, 0.23)',
-                    borderLeft: 'none',
-                    borderRadius: '0 4px 4px 0',
-                    width: 56,
-                    flex: '0 0 auto',
-                  }}
+              )}
+            />
+            <Box sx={{ m: 1 }} />
+            <Controller
+              name='genre'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  label='genre'
+                  {...field}
+                  fullWidth
+                  multiple
+                  onClose={() => handleSubmit(onSubmitGenre)()}
+                  input={<OutlinedInput label='Name' />}
+                  MenuProps={MenuProps}
+                  value={getValues('genre') || []}
                 >
-                  <IconButton
-                    style={{ width: '100%', height: '100%' }}
-                    onClick={() => {
-                      handleSubmit(onSubmitKeyword)()
-                    }}
-                  >
-                    <SavedSearchIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-            )}
-          />
-          <Box sx={{ m: 1 }} />
-          <Controller
-            name='genre'
-            control={control}
-            render={({ field }) => (
-              <Select
-                label='genre'
-                {...field}
-                fullWidth
-                multiple
-                onClose={() => handleSubmit(onSubmitGenre)()}
-                input={<OutlinedInput label='Name' />}
-                MenuProps={MenuProps}
-                value={getValues('genre') || []}
-              >
-                {genres.map(({ genreName }) => (
-                  <MenuItem
-                    key={genreName}
-                    value={genreName}
-                    style={getStyles(genreName, genres, theme)}
-                  >
-                    {genreName}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-        </form>
+                  {genres.map(({ genreName }) => (
+                    <MenuItem
+                      key={genreName}
+                      value={genreName}
+                      style={getStyles(genreName, genres, theme)}
+                    >
+                      {genreName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
+          </form>
+        </Box>
+        <Box>{/* ここにりすとをいれる */}</Box>
       </Box>
     </>
   )
