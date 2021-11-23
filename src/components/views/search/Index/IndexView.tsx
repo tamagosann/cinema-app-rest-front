@@ -69,12 +69,10 @@ const IndexView = () => {
     console.log(data)
   }
 
-  const submitRef = useRef<HTMLFormElement>(null)
-
   return (
     <>
       <Box>
-        <form ref={submitRef}>
+        <form>
           <Controller
             name='keyword'
             control={control}
