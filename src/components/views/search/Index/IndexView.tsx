@@ -1,17 +1,32 @@
+import ClearIcon from '@mui/icons-material/Clear'
+import SavedSearchIcon from '@mui/icons-material/SavedSearch'
 import {
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
+  TextField,
   Theme,
   useTheme,
 } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { SearchWithButton } from 'components/UIKit/searchWithButton'
 import { Genre, genres } from 'utils/filmRequests'
+
+const useStyles = makeStyles({
+  textField: {
+    width: '100%',
+    [`& fieldset`]: {
+      borderRadius: '4px 0 0 4px',
+    },
+  },
+})
 
 function getStyles(genreName: string, genres: Genre[], theme: Theme) {
   return {
@@ -33,75 +48,107 @@ const MenuProps = {
   },
 }
 
+interface IFormInput {
+  keyword: string
+  genre: Genre[]
+}
+
 const IndexView = () => {
-  const [selectedGenreNames, setSelectedGenreNames] = React.useState<string[]>(
-    [],
-  )
-
-  const [keyword, setKeyWord] = useState('')
-
-  const handleChangeGenresSelected = (
-    event: SelectChangeEvent<typeof selectedGenreNames>,
-  ) => {
-    const {
-      target: { value },
-    } = event
-    setSelectedGenreNames(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    )
-  }
-
-  const handleChangeKeyword = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setKeyWord(e.target.value)
-  }
-
-  const clearKeyword = () => {
-    setKeyWord('')
-  }
+  const { textField } = useStyles()
 
   const theme = useTheme()
+
+  const { control, handleSubmit, getValues } = useForm<IFormInput>()
+
+  //べつべつの検索をする。
+  const onSubmitKeyword: SubmitHandler<IFormInput> = (data) => {
+    console.log(data)
+  }
+
+  const onSubmitGenre: SubmitHandler<IFormInput> = (data) => {
+    console.log(data)
+  }
+
+  const submitRef = useRef<HTMLFormElement>(null)
 
   return (
     <>
       <Box>
-        <Box>
-          <SearchWithButton
-            {...{
-              keyword,
-              handleChangeKeyword,
-              clearKeyword,
-              handleClickSearchButton: () => {
-                console.log('clicked')
-              },
-            }}
-          />
-        </Box>
-        <Box>
-          <FormControl sx={{ width: '100%' }}>
-            <InputLabel>genres</InputLabel>
-            <Select
-              multiple
-              value={selectedGenreNames}
-              onChange={handleChangeGenresSelected}
-              onClose={() => {}}
-              input={<OutlinedInput label='Name' />}
-              MenuProps={MenuProps}
-            >
-              {genres.map(({ genreName }) => (
-                <MenuItem
-                  key={genreName}
-                  value={genreName}
-                  style={getStyles(genreName, genres, theme)}
+        <form ref={submitRef}>
+          <Controller
+            name='keyword'
+            control={control}
+            defaultValue=''
+            render={({ field }) => (
+              <Box display='flex'>
+                <Box width='100%' className={textField}>
+                  <TextField
+                    {...field}
+                    label='search Actor or Film'
+                    placeholder='die hard'
+                    variant='outlined'
+                    fullWidth={true}
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton
+                          onClick={() => {}}
+                          disabled={!getValues('keyword')}
+                        >
+                          <ClearIcon color='disabled' fontSize='small' />
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                </Box>
+                <Box
+                  style={{
+                    border: '1px solid rgba(0, 0, 0, 0.23)',
+                    borderLeft: 'none',
+                    borderRadius: '0 4px 4px 0',
+                    width: 56,
+                    flex: '0 0 auto',
+                  }}
                 >
-                  {genreName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+                  <IconButton
+                    style={{ width: '100%', height: '100%' }}
+                    onClick={() => {
+                      handleSubmit(onSubmitKeyword)()
+                    }}
+                  >
+                    <SavedSearchIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+            )}
+          />
+          <Box sx={{ m: 1 }} />
+          <Controller
+            name='genre'
+            control={control}
+            render={({ field }) => (
+              <Select
+                label='genre'
+                {...field}
+                fullWidth
+                multiple
+                onClose={() => handleSubmit(onSubmitGenre)()}
+                input={<OutlinedInput label='Name' />}
+                MenuProps={MenuProps}
+                value={getValues('genre') || []}
+              >
+                {genres.map(({ genreName }) => (
+                  <MenuItem
+                    key={genreName}
+                    value={genreName}
+                    style={getStyles(genreName, genres, theme)}
+                  >
+                    {genreName}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+        </form>
       </Box>
     </>
   )
