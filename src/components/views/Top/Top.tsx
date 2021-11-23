@@ -20,6 +20,7 @@ const TopView: FC<Props> = ({ genreIds, isMobileSize }) => {
   } = useTop()
   return (
     <>
+      <Box sx={{ m: 1 }} />
       <Box>
         <HorizontalPersonListWithHeader />
       </Box>
