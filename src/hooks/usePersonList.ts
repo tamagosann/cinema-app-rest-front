@@ -17,10 +17,10 @@ const fetcher = (url: string) =>
       return res.results
     })
 
-export const usePersonList = ({ personId, keyword }: Props) => {
+export const usePersonList = ({ keyword }: Props) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null // 最後に到達した
-    if (!personId || !keyword) {
+    if (!keyword) {
       return `${TMDB_HOST}${POPULAR_PERSON_URL}&page=${pageIndex + 1}`
     } else {
       return `${TMDB_HOST}${POPULAR_PERSON_URL}&query=${keyword}&page=${

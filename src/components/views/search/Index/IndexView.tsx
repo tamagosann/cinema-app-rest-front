@@ -26,7 +26,8 @@ import React, { useState, useRef } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { SearchWithButton } from 'components/UIKit/searchWithButton'
 import { VerticalFilmListWithLabel } from 'components/organisms/film/VerticalFilmListWithLabel'
-import { Genre, genres } from 'utils/filmRequests'
+import { HorizontalPersonListWithHeader } from 'components/organisms/person/HorizontalPersonListWithHeader'
+import { Genre, genres, getGenreIDs } from 'utils/filmRequests'
 
 const useStyles = makeStyles({
   textField: {
@@ -59,7 +60,7 @@ const MenuProps = {
 
 interface IFormInput {
   keyword: string
-  genre: Genre[]
+  genre: Genre['genreName'][]
   searchForWhat: 'people' | 'film'
 }
 
@@ -68,20 +69,43 @@ const IndexView = () => {
 
   const theme = useTheme()
 
-  const { control, handleSubmit, getValues, setValue } = useForm<IFormInput>()
+  const { control, handleSubmit, getValues, setValue, watch } =
+    useForm<IFormInput>()
+
+  const [searchForWhat, setSearchForWhat] = useState('film')
+  const [listLabel, setListLabel] = useState('Recent Films')
+  const [selectedGenres, setSelectedGenres] = useState('')
+  const [keywordForFilm, setKeywordForFilm] = useState('')
+  const [keywordForPerson, setKeywordForPerson] = useState('')
 
   //べつべつの検索をする。
   const onSubmitKeyword: SubmitHandler<IFormInput> = (data) => {
     console.log(data)
+    const { searchForWhat, genre, keyword } = data
+    setSelectedGenres('')
+    if (searchForWhat === 'film') {
+      setKeywordForFilm(keyword)
+    } else {
+      setKeywordForPerson(keyword)
+    }
   }
 
   const onSubmitGenre: SubmitHandler<IFormInput> = (data) => {
     console.log(data)
+    const { searchForWhat, genre, keyword } = data
+
+    setKeywordForFilm('')
+    setKeywordForPerson('')
+
+    const newGenre = getGenreIDs(genre)
+    console.log(newGenre)
+    setSelectedGenres(newGenre)
   }
 
   return (
     <>
       <Box>
+        <Box sx={{ m: 1 }} />
         <Box>
           <form>
             <Controller
@@ -107,7 +131,7 @@ const IndexView = () => {
                 </FormControl>
               )}
             />
-            <Box sx={{ m: 1 }} />
+            <Box sx={{ m: 2 }} />
             <Controller
               name='keyword'
               control={control}
@@ -125,7 +149,7 @@ const IndexView = () => {
                         endAdornment: (
                           <IconButton
                             onClick={() => {}}
-                            disabled={!getValues('keyword')}
+                            disabled={!watch('keyword')}
                           >
                             <ClearIcon color='disabled' fontSize='small' />
                           </IconButton>
@@ -154,38 +178,53 @@ const IndexView = () => {
                 </Box>
               )}
             />
-            <Box sx={{ m: 1 }} />
+            <Box sx={{ m: 2 }} />
             <Controller
               name='genre'
               control={control}
-              render={({ field }) => (
-                <Select
-                  label='genre'
-                  {...field}
-                  fullWidth
-                  multiple
-                  onClose={() => handleSubmit(onSubmitGenre)()}
-                  input={<OutlinedInput label='Name' />}
-                  MenuProps={MenuProps}
-                  value={getValues('genre') || []}
-                >
-                  {genres.map(({ genreName }) => (
-                    <MenuItem
-                      key={genreName}
-                      value={genreName}
-                      style={getStyles(genreName, genres, theme)}
-                    >
-                      {genreName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
+              render={({ field }) =>
+                watch('searchForWhat') === 'film' ? (
+                  <Select
+                    label='genre'
+                    {...field}
+                    fullWidth
+                    multiple
+                    onClose={() => handleSubmit(onSubmitGenre)()}
+                    input={<OutlinedInput label='Name' />}
+                    MenuProps={MenuProps}
+                    value={getValues('genre') || []}
+                  >
+                    {genres.map(({ genreName }) => (
+                      <MenuItem
+                        key={genreName}
+                        value={genreName}
+                        style={getStyles(genreName, genres, theme)}
+                      >
+                        {genreName}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                ) : (
+                  <></>
+                )
+              }
             />
           </form>
         </Box>
-        <Box>
-          <VerticalFilmListWithLabel label={} genre={} keyword={} />
-        </Box>
+        <Box sx={{ m: 2 }} />
+        {watch('searchForWhat') === 'film' ? (
+          <Box>
+            <VerticalFilmListWithLabel
+              label={listLabel}
+              genre={selectedGenres}
+              keyword={keywordForFilm}
+            />
+          </Box>
+        ) : (
+          <Box>
+            <HorizontalPersonListWithHeader />
+          </Box>
+        )}
       </Box>
     </>
   )

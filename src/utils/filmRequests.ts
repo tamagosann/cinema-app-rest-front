@@ -99,7 +99,17 @@ export const genres: Genre[] = [
 ]
 
 export const getGenreID = (genre: string) => {
-  genres.find((_genre) => _genre.genreName === '')
+  const genreId = genres.find((_genre) => _genre.genreName === genre)
+    ?.id as number
+  return genreId
+}
+
+export const getGenreIDs = (genres: string[]) => {
+  const genreIdArray = genres.map((genre) => {
+    return getGenreID(genre)
+  })
+
+  return genreIdArray.join()
 }
 
 export const getGenreName = (genreId: number): string | undefined => {
