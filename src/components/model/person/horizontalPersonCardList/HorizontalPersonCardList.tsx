@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material'
+import { Button, Theme } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 import React, { FC } from 'react'
@@ -28,12 +28,14 @@ type Props = {
   personList: PersonData[] | undefined
   isValidating: boolean
   loadMore?: () => Promise<any[] | undefined>
+  selectActor?: (personData: PersonData) => void
 }
 
 const HorizontalPersonCardList: FC<Props> = ({
   personList,
   isValidating,
   loadMore,
+  selectActor = () => {},
 }) => {
   const { personCardListRoot, personCardListStyle, filmCardBox } = useStyles()
 
@@ -67,7 +69,9 @@ const HorizontalPersonCardList: FC<Props> = ({
             : personList.map((person) => {
                 return (
                   <Box key={person.id} className={filmCardBox}>
-                    <PersonCard {...person} />
+                    <Button onClick={() => selectActor(person)}>
+                      <PersonCard {...person} />
+                    </Button>
                   </Box>
                 )
               })}
