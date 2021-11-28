@@ -26,6 +26,7 @@ import React, { useState, useRef } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { SearchWithButton } from 'components/UIKit/searchWithButton'
 import { VerticalFilmListWithLabel } from 'components/organisms/film/VerticalFilmListWithLabel'
+import { HorizontalPersonListWithFamousFor } from 'components/organisms/person/HorizontalPersonListWithFamousFor'
 import { HorizontalPersonListWithHeader } from 'components/organisms/person/HorizontalPersonListWithHeader'
 import { Genre, genres, getGenreIDs } from 'utils/filmRequests'
 
@@ -72,8 +73,6 @@ const IndexView = () => {
   const { control, handleSubmit, getValues, setValue, watch } =
     useForm<IFormInput>()
 
-  const [searchForWhat, setSearchForWhat] = useState('film')
-  const [listLabel, setListLabel] = useState('Recent Films')
   const [selectedGenres, setSelectedGenres] = useState('')
   const [keywordForFilm, setKeywordForFilm] = useState('')
   const [keywordForPerson, setKeywordForPerson] = useState('')
@@ -148,7 +147,7 @@ const IndexView = () => {
                       InputProps={{
                         endAdornment: (
                           <IconButton
-                            onClick={() => {}}
+                            onClick={() => setValue('keyword', '')}
                             disabled={!watch('keyword')}
                           >
                             <ClearIcon color='disabled' fontSize='small' />
@@ -215,14 +214,13 @@ const IndexView = () => {
         {watch('searchForWhat') === 'film' ? (
           <Box>
             <VerticalFilmListWithLabel
-              label={listLabel}
               genre={selectedGenres}
               keyword={keywordForFilm}
             />
           </Box>
         ) : (
           <Box>
-            <HorizontalPersonListWithHeader />
+            <HorizontalPersonListWithFamousFor keyword={keywordForPerson} />
           </Box>
         )}
       </Box>

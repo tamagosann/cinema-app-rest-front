@@ -119,6 +119,15 @@ export const getGenreName = (genreId: number): string | undefined => {
   return genre?.genreName
 }
 
+export const getGenreNames = (genres: string) => {
+  const genreIdArray = genres.split(',')
+  return genreIdArray
+    .map((genreId) => {
+      return getGenreName(parseInt(genreId))
+    })
+    .join(',')
+}
+
 ///   まずは、ここらへんのAPIの仕様を変える
 //es凛とで、consoleがえらーになるやつと、つかってないやつがあるとえらーになるやつ入れる
 

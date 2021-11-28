@@ -1,17 +1,17 @@
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useMemo } from 'react'
 import { ArrowButton } from 'components/UIKit/ArrowButton'
 import { VerticalFilmList } from 'components/model/film/VerticalFilmList'
 import { useFilmListBySearch } from 'hooks/useFilmListBySearch'
+import { getGenreNames } from 'utils/filmRequests'
 
 type Props = {
-  label: string
   genre?: string
   keyword?: string
 }
 
-const VerticalFilmListWithLabel: FC<Props> = ({ label, genre, keyword }) => {
+const VerticalFilmListWithLabel: FC<Props> = ({ genre, keyword }) => {
   const {
     data: filmList,
     error,
@@ -29,6 +29,16 @@ const VerticalFilmListWithLabel: FC<Props> = ({ label, genre, keyword }) => {
     console.log(size)
     setSize(size + 1)
   }
+
+  const label = useMemo(() => {
+    if (!!genre) {
+      return `Now Searching for Genre ${getGenreNames(genre)}`
+    } else if (!!keyword) {
+      return `Now Searching for keyword "${keyword}"`
+    } else {
+      return `Recent Films`
+    }
+  }, [genre, keyword])
 
   return (
     <Box>
