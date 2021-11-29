@@ -50,6 +50,7 @@ type Props = Partial<{ [P in keyof FilmInfo]: FilmInfo[P] | undefined }> & {
     handleClickFilmCard: (filmInfo: {
       [P in keyof FilmInfo]: FilmInfo[P] | undefined
     }) => void
+    link?: (id: number) => void
   }>
 
 const FilmCard: FC<Props> = ({
@@ -64,6 +65,7 @@ const FilmCard: FC<Props> = ({
   original_title,
   handleClickFilmCard = () => {},
   handleClickFavoIcon = () => {},
+  link,
 }) => {
   const {
     rootMobile,
@@ -71,21 +73,25 @@ const FilmCard: FC<Props> = ({
     title: titleStyle,
     overview: overviewStyle,
   } = useStyles()
+  const IdToPath = id as number
   return (
     <Card className={isMobileSize ? rootMobile : rootPC}>
       <CardActionArea
-        onClick={() =>
-          handleClickFilmCard({
-            release_date,
-            title,
-            id,
-            backdrop_path,
-            genre_ids,
-            poster_path,
-            overview,
-            original_title,
-            averageStar: 3,
-          })
+        onClick={
+          !link
+            ? () =>
+                handleClickFilmCard({
+                  release_date,
+                  title,
+                  id,
+                  backdrop_path,
+                  genre_ids,
+                  poster_path,
+                  overview,
+                  original_title,
+                  averageStar: 3,
+                })
+            : () => link(IdToPath)
         }
       >
         <CardMedia title='Your title'>

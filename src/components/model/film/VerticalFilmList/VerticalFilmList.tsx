@@ -1,7 +1,8 @@
 import { Grid } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import React, { FC, useEffect, useRef } from 'react'
+import { useRouter } from 'next/dist/client/router'
+import React, { FC, useEffect, useRef, useCallback } from 'react'
 import { FilmCard } from '../filmCard'
 import { FilmInfo } from 'types/dto/ssr'
 
@@ -14,6 +15,14 @@ type Props = {
 }
 
 const VerticalFilmList: FC<Props> = ({ filmList, isValidating }) => {
+  const router = useRouter()
+  const link = useCallback(
+    (id: number) => {
+      router.push(`/film/${id}`)
+    },
+    [router],
+  )
+
   return (
     <>
       <Box>
@@ -34,7 +43,7 @@ const VerticalFilmList: FC<Props> = ({ filmList, isValidating }) => {
                     <Box>
                       <FilmCard
                         {...(filmInfo as FilmInfo)}
-                        {...{ isMobileSize: false }}
+                        {...{ isMobileSize: false, link }}
                       />
                     </Box>
                   </Grid>
