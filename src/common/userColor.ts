@@ -25,3 +25,15 @@ export const getUserColor = (colorName: string) => {
   )?.code
   return !color ? '#343249' : color
 }
+
+export const getColorByGender = (gender: number) => {
+  if (gender == 2) {
+    const code = userColors.find((usercolor) => usercolor.name === 'red')?.code
+    return code ? code : '#343249'
+  } else if (gender == 1) {
+    const code = userColors.find((usercolor) => usercolor.name === 'blue')?.code
+    return code ? code : '#343249'
+  } else {
+    return '#343249'
+  }
+}

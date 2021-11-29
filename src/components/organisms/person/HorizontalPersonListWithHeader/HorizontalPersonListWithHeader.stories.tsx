@@ -2,29 +2,29 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 import withMock from 'storybook-addon-mock'
 import { stabFilmDataList } from 'common/test_mock/stabData'
-import { HorizontalFilmListWithGenre } from 'components/organisms/film/HorizontalFilmListWithGenre'
+import { HorizontalPersonListWithHeader } from 'components/organisms/person/HorizontalPersonListWithHeader'
 import MuiThemeProvider from 'hooks/theme'
 import { DISCOVER_FILM_URL, TMDB_HOST } from 'utils/filmRequests'
 
 export default {
-  title: 'Film/Holizontal film list with genre',
-  component: HorizontalFilmListWithGenre,
+  title: 'Person/Holizontal Person list with Header',
+  component: HorizontalPersonListWithHeader,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
   decorators: [withMock],
-} as ComponentMeta<typeof HorizontalFilmListWithGenre>
+} as ComponentMeta<typeof HorizontalPersonListWithHeader>
 
-const Template: ComponentStory<typeof HorizontalFilmListWithGenre> = (
+const Template: ComponentStory<typeof HorizontalPersonListWithHeader> = (
   args: any,
 ) => (
   <MuiThemeProvider>
-    <HorizontalFilmListWithGenre {...args} />
+    <HorizontalPersonListWithHeader {...args} />
   </MuiThemeProvider>
 )
 
 export const Mobile = Template.bind({})
-Mobile.args = { genreId: 27, isMobileSize: true }
+Mobile.args = { genreId: 28, isMobileSize: true }
 Mobile.parameters = {
   mockData: [
     {

@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof UserIcon> = (args: any) => (
 
 export const Blue = Template.bind({})
 Blue.args = {
-  src: `${TMDB_IMAGE_URL}${stabFilmData.backdrop_path}`,
+  src: `${TMDB_IMAGE_URL}/4SYTH5FdB0dAORV98Nwg3llgVnY.jpg`,
   alt: stabFilmData.title,
   width: 100,
   color: 'blue',

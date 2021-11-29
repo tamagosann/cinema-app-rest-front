@@ -1,5 +1,9 @@
 export const API_KEY = process.env.API_KEY || process.env.NEXT_PUBLIC_API_KEY
 export const DISCOVER_FILM_URL = `/discover/movie?api_key=${API_KEY}`
+export const SEARCH_FILM_URL = `/search/movie?api_key=${API_KEY}`
+export const POPULAR_FILM_URL = `/trending/all/week?api_key=${API_KEY}`
+export const POPULAR_PERSON_URL = `/person/popular?api_key=${API_KEY}&language=en-US`
+export const SEARCH_PERSON_URL = `/search/person?api_key=${API_KEY}&language=en-US&include_adult=false`
 export const TMDB_HOST = 'https://api.themoviedb.org/3'
 export const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/original/'
 
@@ -95,7 +99,17 @@ export const genres: Genre[] = [
 ]
 
 export const getGenreID = (genre: string) => {
-  genres.find((_genre) => _genre.genreName === '')
+  const genreId = genres.find((_genre) => _genre.genreName === genre)
+    ?.id as number
+  return genreId
+}
+
+export const getGenreIDs = (genres: string[]) => {
+  const genreIdArray = genres.map((genre) => {
+    return getGenreID(genre)
+  })
+
+  return genreIdArray.join()
 }
 
 export const getGenreName = (genreId: number): string | undefined => {
@@ -103,6 +117,15 @@ export const getGenreName = (genreId: number): string | undefined => {
     return _genre.id === genreId
   })
   return genre?.genreName
+}
+
+export const getGenreNames = (genres: string) => {
+  const genreIdArray = genres.split(',')
+  return genreIdArray
+    .map((genreId) => {
+      return getGenreName(parseInt(genreId))
+    })
+    .join(',')
 }
 
 ///   まずは、ここらへんのAPIの仕様を変える
