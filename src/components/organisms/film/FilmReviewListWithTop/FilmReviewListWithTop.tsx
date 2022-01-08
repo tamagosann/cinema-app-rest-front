@@ -9,10 +9,11 @@ import {
 } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { loadingReviewList3 } from 'common/test_mock/stabReviewData'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { FilmReviewList as FilmReviewListModel } from 'components/model/film/filmReviewList'
+import { ReviewModal } from 'components/model/film/reviewModal'
 import { useFilmReviewList } from 'hooks/useReviewList'
 
 type Props = {
@@ -59,6 +60,16 @@ const FilmReviewListWithTop: FC<Props> = ({
     setPage,
   } = useFilmReviewList({ filmId })
 
+  const [starsSelected, setStarsSelected] = useState(averageStar || 3)
+  const [openReviewModal, setOpenReviewModal] = useState(false)
+  const starsOnChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: number | null,
+  ) => setStarsSelected(newValue as number)
+
+  const handleOpenReviewModal = () => setOpenReviewModal(true)
+  const handleCloseReviewModal = () => setOpenReviewModal(false)
+
   const reviewListToShow = !reviewList ? loadingReviewList3 : reviewList
 
   return (
@@ -87,7 +98,9 @@ const FilmReviewListWithTop: FC<Props> = ({
           ) : (
             <>
               <Box textAlign='center' className={mb1}>
-                <FiveStars {...{ value: averageStar, readonly: true }} />
+                <FiveStars
+                  {...{ value: starsSelected, onChange: starsOnChange }}
+                />
               </Box>
               <Typography variant='caption' textAlign='center' component='p'>
                 ↑星を選んで
@@ -100,7 +113,11 @@ const FilmReviewListWithTop: FC<Props> = ({
           {averageStar === undefined ? (
             <Skeleton height={80} />
           ) : (
-            <Button endIcon={<CreateIcon />} className={button}>
+            <Button
+              onClick={handleOpenReviewModal}
+              endIcon={<CreateIcon />}
+              className={button}
+            >
               レビュー！
             </Button>
           )}
@@ -120,6 +137,13 @@ const FilmReviewListWithTop: FC<Props> = ({
           onChange={(e, page) => setPage(page)}
         />
       </Box>
+      <ReviewModal
+        {...{
+          open: openReviewModal,
+          handleClose: handleCloseReviewModal,
+          initialRating: starsSelected,
+        }}
+      />
     </>
   )
 }
