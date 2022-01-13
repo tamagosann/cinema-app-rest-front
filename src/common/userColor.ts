@@ -1,4 +1,4 @@
-const userColors = [
+export const userColors = [
   {
     name: 'blue',
     code: '#2f506a',
