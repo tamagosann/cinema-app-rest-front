@@ -19,12 +19,15 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@date-io/dayjs": "^2.11.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.1",
-    "@mui/material": "^5.0.2",
+    "@mui/lab": "^5.0.0-alpha.63",
+    "@mui/material": "^5.0.6",
     "@mui/styles": "^5.0.1",
     "add": "^2.0.6",
+    "dayjs": "^1.10.7",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
