@@ -1,6 +1,5 @@
-import { Skeleton } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { Box, SxProps } from '@mui/system'
+import { Box } from '@mui/system'
 import Image from 'next/image'
 import React, { FC } from 'react'
 import { getUserColor } from 'common/userColor'
@@ -10,7 +9,6 @@ type Props = {
   alt: string
   width: number
   color: string
-  sx?: SxProps
 }
 
 const useStyles = makeStyles({
@@ -20,7 +18,7 @@ const useStyles = makeStyles({
   },
 })
 
-const UserIcon: FC<Props> = ({ src, alt, width, color, sx }) => {
+const UserIcon: FC<Props> = ({ src, alt, width, color }) => {
   const { root } = useStyles()
 
   const userColor = getUserColor(color)
@@ -31,20 +29,16 @@ const UserIcon: FC<Props> = ({ src, alt, width, color, sx }) => {
   }
 
   return (
-    <Box className={root} width={width} height={width} style={style} sx={sx}>
-      {src ? (
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={width}
-          objectFit='cover'
-          placeholder='blur'
-          blurDataURL='/loading-image.jpg'
-        />
-      ) : (
-        <Skeleton variant='circular' width={width} height={width} />
-      )}
+    <Box className={root} width={width} height={width} style={style}>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={width}
+        objectFit='cover'
+        placeholder='blur'
+        blurDataURL='/loading-image.jpg'
+      />
     </Box>
   )
 }

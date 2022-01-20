@@ -1,16 +1,27 @@
 import { Button, Theme } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import { Box, styled } from '@mui/system'
+import { Box } from '@mui/system'
 import React, { FC } from 'react'
 import { PersonData } from 'common/test_mock/stabPersonData'
 import { PersonCard } from 'components/model/person/personCard'
 
-const FilmCardBox = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(1),
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
-  maxWidth: '100%',
-  flex: '0 0 auto',
+const useStyles = makeStyles((theme: Theme) => ({
+  personCardListRoot: {
+    width: '100%',
+  },
+  personCardListStyle: {
+    display: 'flex',
+    width: '100%',
+    maxWidth: '100%',
+    overflowX: 'scroll',
+  },
+  filmCardBox: {
+    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    maxWidth: '100%',
+    flex: '0 0 auto',
+  },
 }))
 
 type Props = {
@@ -26,6 +37,8 @@ const HorizontalPersonCardList: FC<Props> = ({
   loadMore,
   selectActor = () => {},
 }) => {
+  const { personCardListRoot, personCardListStyle, filmCardBox } = useStyles()
+
   const onScroll = (e: React.UIEvent<React.ReactNode>) => {
     if (!loadMore) return
     // as HTMLDivElement としないとtype errorになる
@@ -43,39 +56,31 @@ const HorizontalPersonCardList: FC<Props> = ({
 
   return (
     <>
-      <Box sx={{ width: '100%' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            maxWidth: '100%',
-            overflowX: 'scroll',
-          }}
-          onScroll={onScroll}
-        >
+      <Box className={personCardListRoot}>
+        <Box className={personCardListStyle} onScroll={onScroll}>
           {!personList || personList.length === 0
             ? [...Array(20)].map((_, index) => {
                 return (
-                  <FilmCardBox key={index}>
+                  <Box key={index} className={filmCardBox}>
                     <PersonCard />
-                  </FilmCardBox>
+                  </Box>
                 )
               })
             : personList.map((person) => {
                 return (
-                  <FilmCardBox key={person.id}>
+                  <Box key={person.id} className={filmCardBox}>
                     <Button onClick={() => selectActor(person)}>
                       <PersonCard {...person} />
                     </Button>
-                  </FilmCardBox>
+                  </Box>
                 )
               })}
           {isValidating &&
             [...Array(20)].map((_, index) => {
               return (
-                <FilmCardBox key={index}>
+                <Box key={index} className={filmCardBox}>
                   <PersonCard />
-                </FilmCardBox>
+                </Box>
               )
             })}
         </Box>
