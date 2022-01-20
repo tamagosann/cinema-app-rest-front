@@ -20,6 +20,7 @@ const TopPage: FC<Props> = () => {
 
 export default TopPage
 
+// データ量がでかいのでトップページはCSRさせる
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {

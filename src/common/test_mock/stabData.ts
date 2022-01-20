@@ -13,6 +13,8 @@ export const stabFilmData = {
   averageStar: 3.5,
 }
 
+export type FilmData = typeof stabFilmData
+
 //２０件デモ
 export const stabFilmDataList = [
   {

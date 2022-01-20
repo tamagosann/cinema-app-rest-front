@@ -5,7 +5,7 @@ import MuiThemeProvider from 'hooks/theme'
 import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 
 export default {
-  title: 'Film/UserIcon',
+  title: 'User/UserIcon',
   component: UserIcon,
   argTypes: {
     backgroundColor: { control: 'color' },

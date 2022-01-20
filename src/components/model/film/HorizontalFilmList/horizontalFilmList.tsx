@@ -42,10 +42,10 @@ const skeletonFilmCardProps = {
 type Props = {
   filmList: (FilmInfo | undefined)[] | undefined
   isMobileSize?: boolean
-  handleClickFilmCard: (filmInfo: {
+  handleClickFilmCard?: (filmInfo: {
     [P in keyof FilmInfo]: FilmInfo[P] | undefined
-  }) => void
-  handleClickLoadMoreButton: () => Promise<any[] | undefined>
+  }) => void | undefined
+  handleClickLoadMoreButton?: () => Promise<any[] | undefined>
   index: number
   isValidating: boolean
 }
@@ -80,6 +80,7 @@ const HorizontalFilmList: FC<Props> = ({
   }, [filmList, index, ref])
 
   const onScroll = (e: React.UIEvent<React.ReactNode>) => {
+    if (!handleClickLoadMoreButton) return
     // as HTMLDivElement としないとtype errorになる
     const target = e.target as HTMLDivElement
 

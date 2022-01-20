@@ -17,8 +17,18 @@ const SignUpView: FC = () => {
     console.log(data)
   }
 
+  const click = async () => {
+    const res = await fetch('api/top')
+    console.log(res)
+    const data = await res.json()
+    console.log(data)
+  }
+
   return (
     <Container maxWidth='xs'>
+      <Button type='button' onClick={click}>
+        フェッチ
+      </Button>
       <Box sx={{ my: 4 }}>
         <Avatar sx={{ mx: 'auto', mb: 1 }}>
           <LockOutlined />

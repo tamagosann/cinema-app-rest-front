@@ -1,7 +1,6 @@
-import { Button, Skeleton, Theme, Typography } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import { Box } from '@mui/system'
-import React, { FC, useMemo, useState } from 'react'
+import { Button, Skeleton, Typography } from '@mui/material'
+import { Box, styled } from '@mui/system'
+import React, { FC, useState } from 'react'
 import useFilmReview from './FilmReview.hooks'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { UserIcon } from 'components/model/user/userIcon'
@@ -12,62 +11,23 @@ type Props = Partial<FilmReviewType> & {
   isMobileSize: boolean
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: 'flex',
-    marginBottom: theme.spacing(1),
-  },
-  topRoot: {
-    padding: theme.spacing(1),
-    alignItems: 'flex-end',
-    paddingTop: 0,
-  },
-  topItem: {
-    flex: '0 0 auto',
-  },
-  flex1: {
-    flex: '1 1 auto',
-    overflow: 'hidden',
-  },
-  topItemNumber: {
-    flex: '0 0 auto',
-    marginLeft: 10,
-  },
-  topItemTitle: {
-    flex: '0 0 auto',
-    marginLeft: 10,
-  },
-  userIcon: {
-    flex: '0 0 auto',
-  },
-  title: {
-    padding: theme.spacing(1),
-    paddingTop: 0,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-  overview: {
-    padding: theme.spacing(1),
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginBottom: theme.spacing(1),
-    display: '-webkit-box',
-    '-webkit-line-clamp': 3,
-    '-webkit-box-orient': 'vertical',
-    overflow: 'hidden',
-    transition: 'height 1s ease-out',
-  },
-  overviewShow: {
-    padding: theme.spacing(1),
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginBottom: theme.spacing(1),
-    display: 'block',
-    '-webkit-line-clamp': 'none',
-    overflow: 'auto',
-  },
-}))
+const Title = styled(Typography)({
+  padding: 1,
+  paddingTop: 0,
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+})
+
+const Overview = styled(Typography)({
+  padding: 1,
+  paddingTop: 0,
+  paddingBottom: 0,
+  marginBottom: 1,
+  display: '-webkit-box',
+  '-webkit-line-clamp': 3,
+  '-webkit-box-orient': 'vertical',
+})
 
 const FilmReview: FC<Props> = ({
   isMobileSize,
@@ -79,17 +39,6 @@ const FilmReview: FC<Props> = ({
   reviewDate,
   overview,
 }) => {
-  const {
-    root,
-    topItem,
-    topItemNumber,
-    topRoot,
-    title: titleStyle,
-    flex1,
-    overview: overviewStyle,
-    overviewShow,
-  } = useStyles()
-
   const { starToShow, reviewDateToShow } = useFilmReview({
     star,
     reviewDate,
@@ -99,7 +48,7 @@ const FilmReview: FC<Props> = ({
 
   return (
     <>
-      <Box className={root}>
+      <Box sx={{ display: 'flex', mb: 1 }}>
         <Box>
           {!userIconUrl ? (
             <Skeleton
@@ -116,52 +65,61 @@ const FilmReview: FC<Props> = ({
             />
           )}
         </Box>
-        <Box className={flex1}>
-          <Box display='flex' className={topRoot}>
+        <Box sx={{ flex: '1 1 auto', overflow: 'hidden' }}>
+          <Box
+            display='flex'
+            sx={{
+              padding: 1,
+              alignItems: 'flex-end',
+              paddingTop: 0,
+            }}
+          >
             {!star || !starToShow || !reviewDate ? (
               <Skeleton width='100%' height={isMobileSize ? 24 : 27} />
             ) : (
               <>
-                <Box className={topItem}>
+                <Box sx={{ flex: '0 0 auto' }}>
                   <FiveStars
                     value={star}
                     readonly
                     size={isMobileSize ? 'small' : 'medium'}
                   />
                 </Box>
-                <Box className={topItemNumber}>{starToShow}</Box>
+                <Box sx={{ flex: '0 0 auto', marginLeft: 10 }}>
+                  {starToShow}
+                </Box>
                 <Box
-                  className={topItemNumber}
+                  sx={{ flex: '0 0 auto', marginLeft: 10 }}
                 >{`${reviewDateToShow} に投稿`}</Box>
               </>
             )}
           </Box>
           {username ? (
-            <Typography variant='caption' className={titleStyle}>
-              {username}　さん
-            </Typography>
+            <Title variant='caption'>{username}　さん</Title>
           ) : (
             <Skeleton width={50} component='span' style={{ marginLeft: 8 }} />
           )}
           {!reviewTitle ? (
-            <Typography variant='subtitle1' className={titleStyle}>
+            <Title variant='subtitle1'>
               <Skeleton height={28} component='div' />
-            </Typography>
+            </Title>
           ) : (
-            <Typography variant='subtitle1' className={titleStyle}>
-              {reviewTitle}
-            </Typography>
+            <Title variant='subtitle1'>{reviewTitle}</Title>
           )}
           {!overview ? (
-            <Typography className={overviewStyle} height={72}>
+            <Overview height={72}>
               <Skeleton height={'100%'} />
-            </Typography>
+            </Overview>
           ) : (
-            <Typography
-              className={`${overviewStyle} ${showDetail && overviewShow}`}
+            <Overview
+              style={{
+                display: showDetail ? 'block' : '-webkit-box',
+                WebkitLineClamp: showDetail ? 'none' : 3,
+                overflow: showDetail ? 'auto' : 'hidden',
+              }}
             >
               {overview}
-            </Typography>
+            </Overview>
           )}
           <Button onClick={() => setShowDetail(!showDetail)}>続きを見る</Button>
         </Box>
