@@ -52,7 +52,6 @@ const Layout: FC = ({ children }) => {
     uid: '0001',
     isSignIn: 'true',
   }
-  const classes = useStyles()
   const isSm = useMediaQuery({ minWidth: 600 })
   const [open, setOpen] = useState(false)
   const router = useRouter()
@@ -124,10 +123,10 @@ const Layout: FC = ({ children }) => {
               height={60}
               onClick={() => console.log('クリックされた')}
             />
-            <Box className={classes.title} />
+            <Box sx={{ flexGrow: 1 }} />
             {isSm ? (
               <>
-                <Box className={classes.title} />
+                <Box sx={{ flexGrow: 1 }} />
                 {isSignIn ? (
                   <>
                     <Typography>おかえり、{username}</Typography>
@@ -177,7 +176,7 @@ const Layout: FC = ({ children }) => {
         onClose={() => setOpen(false)}
         ModalProps={{ keepMounted: true }}
       >
-        <div className={classes.drawerContainer}>
+        <Box sx={{ width: 215 }}>
           <List>
             <Divider />
             {isSignIn
@@ -212,7 +211,7 @@ const Layout: FC = ({ children }) => {
                     )
                   })}
           </List>
-        </div>
+        </Box>
       </Drawer>
       <Container maxWidth='md'>{children}</Container>
     </>

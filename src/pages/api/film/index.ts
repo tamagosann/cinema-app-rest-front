@@ -9,6 +9,7 @@ export default async function handler(
   res: NextApiResponse<Data>,
 ) {
   if (req.method !== 'GET') res.status(405).end()
+  console.log('きたよ')
   try {
     const response = await fetch(`${process.env.BFF_URL}/film/review`)
     const data = await response.json()
