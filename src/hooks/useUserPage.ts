@@ -16,7 +16,7 @@ const fetcher = (url: string) =>
 
 export const useUserPage = ({ userId, initialData }: Props) => {
   const { data, error } = useSWR<UserPageDto>(
-    `/api/user?userId=${userId}`,
+    `/api/users?userId=${userId}`,
     fetcher,
     {
       fallbackData: initialData,
