@@ -54,6 +54,7 @@
     "eslint-config-prettier": "^8.3.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.2.3",
+    "msw": "^0.36.5",
     "prettier": "^2.4.1",
     "storybook-addon-mock": "^1.6.0",
     "ts-loader": "^9.2.6",
@@ -65,5 +66,8 @@
       "yarn format",
       "yarn lint:fix"
     ]
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
