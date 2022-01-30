@@ -17,16 +17,16 @@ const handler: NextApiHandler = async (req, res) => {
 
   switch (method) {
     case 'GET':
-      const { filmId, reviewId, userId } = req.query
+      const { filmId, filmReviewId, userId } = req.query
       if (
-        Array.isArray(reviewId) ||
+        Array.isArray(filmReviewId) ||
         Array.isArray(filmId) ||
         Array.isArray(userId)
       )
         return res.status(403).end()
 
       // 特定の映画のレビュー一覧を取得
-      if (!reviewId && !userId && !!filmId) {
+      if (!filmReviewId && !userId && !!filmId) {
         try {
           const { data } = await axios.get<FilmReviewsDto>(
             pathBuilder({
@@ -41,7 +41,7 @@ const handler: NextApiHandler = async (req, res) => {
       }
 
       // 特定のユーザーのレビュー一覧を取得
-      if (!reviewId && !filmId && !!userId) {
+      if (!filmReviewId && !filmId && !!userId) {
         try {
           const { data } = await axios.get<FilmReviewsDto>(
             pathBuilder({
@@ -55,13 +55,13 @@ const handler: NextApiHandler = async (req, res) => {
         }
       }
 
-      // reviewIdと一致するレビューを取得
-      if (!filmId && !userId && !!reviewId) {
+      // filmReviewIdと一致するレビューを取得
+      if (!filmId && !userId && !!filmReviewId) {
         try {
           const { data } = await axios.get<FilmReviewDto>(
             pathBuilder({
               path: FILM_REVIEW_PATH,
-              queries: [reviewId],
+              queries: [filmReviewId],
             }),
           )
           return res.status(200).json(data)

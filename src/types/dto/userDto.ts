@@ -3,7 +3,8 @@ import { PersonData } from 'common/test_mock/stabPersonData'
 import { ReviewData } from 'common/test_mock/stabReviewData'
 
 export type UserDto = {
-  userId: string
+  userId: number
+  email: string
   username: string
   icon: string
   iconColor: string

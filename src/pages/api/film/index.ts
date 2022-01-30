@@ -9,12 +9,12 @@ const { axios, isAxiosError } = createAxios()
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== 'GET') return res.status(405).end()
 
-  const { page, query } = req.query
+  const { page, with_genres } = req.query
   if (!page || Array.isArray(page) || Array.isArray(query))
     return res.status(403).end()
 
   try {
-    const { data } = await axios.get<FetchPersonsDTO>(
+    const { data } = await axios.get<FilmsDTO>(
       pathBuilder({
         path: '/film',
         queries: [page, query],
