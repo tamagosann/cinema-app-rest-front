@@ -4,10 +4,10 @@ import React, { FC, useState } from 'react'
 import useFilmReview from './FilmReview.hooks'
 import { FiveStars } from 'components/UIKit/fiveStars'
 import { UserIcon } from 'components/model/user/userIcon'
-import { FilmReviewType } from 'types/film'
+import { FilmReviewDto } from 'types/dto/filmReviewDto'
 import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 
-type Props = Partial<FilmReviewType> & {
+type Props = Partial<FilmReviewDto> & {
   isMobileSize: boolean
 }
 
@@ -31,13 +31,13 @@ const Overview = styled(Typography)({
 
 const FilmReview: FC<Props> = ({
   isMobileSize,
-  userIconUrl,
+  icon,
   username,
-  userIconColor,
+  iconColor,
   star,
   reviewTitle,
   reviewDate,
-  overview,
+  reviewOverview,
 }) => {
   const { starToShow, reviewDateToShow } = useFilmReview({
     star,
@@ -50,7 +50,7 @@ const FilmReview: FC<Props> = ({
     <>
       <Box sx={{ display: 'flex', mb: 1 }}>
         <Box>
-          {!userIconUrl ? (
+          {!icon ? (
             <Skeleton
               width={isMobileSize ? 50 : 100}
               height={isMobileSize ? 50 : 100}
@@ -59,9 +59,9 @@ const FilmReview: FC<Props> = ({
           ) : (
             <UserIcon
               width={isMobileSize ? 50 : 100}
-              src={`${TMDB_IMAGE_URL}${userIconUrl}`}
+              src={`${TMDB_IMAGE_URL}${icon}`}
               alt={username as string}
-              color={userIconColor ? userIconColor : 'black'}
+              color={iconColor ? iconColor : 'black'}
             />
           )}
         </Box>
@@ -106,7 +106,7 @@ const FilmReview: FC<Props> = ({
           ) : (
             <Title variant='subtitle1'>{reviewTitle}</Title>
           )}
-          {!overview ? (
+          {!reviewOverview ? (
             <Overview height={72}>
               <Skeleton height={'100%'} />
             </Overview>
@@ -118,7 +118,7 @@ const FilmReview: FC<Props> = ({
                 overflow: showDetail ? 'auto' : 'hidden',
               }}
             >
-              {overview}
+              {reviewOverview}
             </Overview>
           )}
           <Button onClick={() => setShowDetail(!showDetail)}>続きを見る</Button>

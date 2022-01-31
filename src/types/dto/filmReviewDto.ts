@@ -1,8 +1,8 @@
 export type FilmReviewDto = {
   filmReviewId: string
   userId: string
-  userIconColor: string
-  userIconUrl: string
+  iconColor: string
+  icon: string
   username: string
   star: number
   reviewDate: number

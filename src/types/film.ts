@@ -1,3 +1,4 @@
+import { FilmReviewDto } from './dto/filmReviewDto'
 import { FilmInfo } from './dto/ssr'
 import { PersonData } from 'common/test_mock/stabPersonData'
 
@@ -25,7 +26,7 @@ export type FilmReviewType = {
 
 export type FetchFilmReviewsByFilmIdDTO = {
   page: number
-  results: FilmReviewType[]
+  results: FilmReviewDto[]
   totalPages: number
   totalResults: number
 }
