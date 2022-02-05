@@ -17,7 +17,16 @@ const handler: NextApiHandler = async (req, res) => {
     const { data } = await axios.get<FetchPersonsDTO>(
       pathBuilder({
         path: '/people',
-        queries: [page, query],
+        queries: [
+          {
+            name: 'page',
+            value: page,
+          },
+          {
+            name: 'query',
+            value: query,
+          },
+        ],
       }),
     )
     return res.status(200).json(data)

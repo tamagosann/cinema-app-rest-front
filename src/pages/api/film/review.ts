@@ -31,7 +31,12 @@ const handler: NextApiHandler = async (req, res) => {
           const { data } = await axios.get<FilmReviewsDto>(
             pathBuilder({
               path: FILM_REVIEW_PATH,
-              queries: [filmId],
+              queries: [
+                {
+                  name: 'filmId',
+                  value: filmId,
+                },
+              ],
             }),
           )
           return res.status(200).json(data)
@@ -46,7 +51,12 @@ const handler: NextApiHandler = async (req, res) => {
           const { data } = await axios.get<FilmReviewsDto>(
             pathBuilder({
               path: FILM_REVIEW_PATH,
-              queries: [userId],
+              queries: [
+                {
+                  name: 'userId',
+                  value: userId,
+                },
+              ],
             }),
           )
           return res.status(200).json(data)
@@ -61,7 +71,12 @@ const handler: NextApiHandler = async (req, res) => {
           const { data } = await axios.get<FilmReviewDto>(
             pathBuilder({
               path: FILM_REVIEW_PATH,
-              queries: [filmReviewId],
+              queries: [
+                {
+                  name: 'filmReviewId',
+                  value: filmReviewId,
+                },
+              ],
             }),
           )
           return res.status(200).json(data)

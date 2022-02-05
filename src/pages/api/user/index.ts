@@ -24,7 +24,12 @@ const handler: NextApiHandler = async (req, res) => {
           const { data } = await axios.get<UserDto>(
             pathBuilder({
               path: USER_PATH,
-              queries: [userId],
+              queries: [
+                {
+                  name: 'userId',
+                  value: userId,
+                },
+              ],
             }),
           )
           return res.status(200).json(data)
