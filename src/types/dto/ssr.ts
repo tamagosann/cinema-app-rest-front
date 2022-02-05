@@ -24,3 +24,10 @@ export type FilmInfo = {
   original_title: string
   averageStar: number
 }
+
+export type FilmInfoListDto = {
+  page: number
+  totalPages: number
+  totalResults: number
+  filmList: FilmInfo[]
+}

@@ -1,12 +1,15 @@
 type Props = {
   path: string
-  queries: string[]
+  queries: {
+    name: string
+    value: string | number
+  }[]
 }
 
 export const pathBuilder = ({ path, queries }: Props) => {
   const queryString = queries
-    .filter((query) => !!query)
-    .map((query) => `${query}=${query}`)
+    .filter((query) => !!query.value)
+    .map((query) => `${query.name}=${query.value}`)
     .join('&')
   return `${path}?${queryString}`
 }
