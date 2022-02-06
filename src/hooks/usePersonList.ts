@@ -1,31 +1,25 @@
 import useSWRInfinite from 'swr/infinite'
+import { createAxios } from '../../libs/axios'
 import { FetchPersonsDTO } from 'types/film'
-import { POPULAR_PERSON_URL, TMDB_HOST } from 'utils/filmRequests'
 
-type Props = {
-  personId?: number
-  keyword?: string
-}
+const { axios } = createAxios()
+
+const PEOPLE_PATH = '/api/people'
 
 const fetcher = (url: string) =>
-  fetch(url)
-    .then((res: Response) => {
-      return res.json()
-    })
-    .then((res: FetchPersonsDTO) => {
-      console.log(res)
-      return res.results
-    })
+  axios.get<FetchPersonsDTO>(url).then((res) => res.data.results)
+
+type Props = {
+  keyword?: string
+}
 
 export const usePersonList = ({ keyword }: Props) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null // 最後に到達した
     if (!keyword) {
-      return `${TMDB_HOST}${POPULAR_PERSON_URL}&page=${pageIndex + 1}`
+      return `${PEOPLE_PATH}?page=${pageIndex + 1}`
     } else {
-      return `${TMDB_HOST}${POPULAR_PERSON_URL}&query=${keyword}&page=${
-        pageIndex + 1
-      }`
+      return `${PEOPLE_PATH}?query=${keyword}&page=${pageIndex + 1}`
     }
   }
 
