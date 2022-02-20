@@ -1,5 +1,6 @@
+import { UserDto } from './userDto'
+
 export type SignUpDto = {
-  success: boolean
-  userId: string
-  username: string
+  token: string
+  user: UserDto
 }

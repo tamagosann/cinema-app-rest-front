@@ -5,7 +5,7 @@ import { PostLoginBody } from 'types/requestBody/login'
 import { returnErrorResponse } from 'utils/returnErrorResponse'
 
 const { axios, isAxiosError } = createAxios()
-const FILM_REVIEW_PATH = '/signup'
+const FILM_REVIEW_PATH = '/auth/signup'
 
 const handler: NextApiHandler = async (req, res) => {
   const { method } = req

@@ -7,7 +7,7 @@ import { useFormContext } from 'react-hook-form'
 type Props = {}
 
 export type LoginInput = {
-  emailOrPhoneNumber: string
+  email: string
   password: string
 }
 
@@ -20,14 +20,14 @@ const LoginForm = ({}: Props) => {
     <Box>
       <TextField
         label='メールアドレスまたは電話番号'
-        {...register('emailOrPhoneNumber', {
+        {...register('email', {
           required: '* メールアドレス又は電話番号は必須入力です',
         })}
-        helperText={errors.emailOrPhoneNumber?.message}
+        helperText={errors.email?.message}
         fullWidth
         multiline
         rows={1}
-        error={!!errors.emailOrPhoneNumber}
+        error={!!errors.email}
         sx={{ mb: 4 }}
       />
       <TextField

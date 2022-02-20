@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { SnackbarProvider } from 'notistack'
 import MuiThemeProvider from 'hooks/theme'
 import Layout from 'layout/Layout'
 
@@ -10,9 +11,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <MuiThemeProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SnackbarProvider maxSnack={3}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SnackbarProvider>
     </MuiThemeProvider>
   )
 }

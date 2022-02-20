@@ -1,21 +1,51 @@
 import { LockOutlined } from '@mui/icons-material'
 import { Avatar, Button, Container, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { FC } from 'react'
+import { useRouter } from 'next/router'
+import React, { FC, useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { createAxios } from '../../../../libs/axios'
 import { LoginForm } from 'components/organisms/auth/LoginForm'
 import { LoginInput } from 'components/organisms/auth/LoginForm/LoginForm'
+import { useLoginUser } from 'hooks/useLoginUser'
+import { useSnackBar } from 'hooks/useSnackBar'
+import { LoginDto, LoginDtoClient } from 'types/dto/loginDto'
+
+const { axios } = createAxios()
 
 const LoginView: FC = () => {
+  const router = useRouter()
   const formReturn = useForm<LoginInput>({ mode: 'onChange' })
   const {
     formState: { isDirty, isValid },
     handleSubmit,
   } = formReturn
+  const { enquereSuccess, enquereError } = useSnackBar()
+  const { data, mutate } = useLoginUser()
 
-  const onSubmit = (data: LoginInput) => {
-    console.log(data)
+  const onSubmit = async (data: LoginInput) => {
+    try {
+      const { data: loginDtoClient } = await axios.post<LoginDtoClient>(
+        '/api/auth/login',
+        data,
+      )
+      if (loginDtoClient.isLoggedIn === true) {
+        // ここで改めてユーザー情報を取ってくる
+        enquereSuccess('ログインに成功しました')
+        mutate()
+      }
+    } catch (err) {
+      console.log(err)
+      enquereError('ログインに失敗しました！')
+    }
   }
+
+  useEffect(() => {
+    // ログインしていた場合はtopへリダイレクト
+    if (data) router.replace('/top')
+  }, [router, data])
+
+  if (data) return <></>
 
   return (
     <Container maxWidth='xs' sx={{ position: 'relative', height: '100vh' }}>
