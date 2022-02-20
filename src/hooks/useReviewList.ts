@@ -14,10 +14,7 @@ const fetcher = (url: string) =>
 export const useFilmReviewList = ({ filmId }: Props) => {
   const [page, setPage] = useState(1)
   const [totalpage, setTotalPage] = useState(1)
-  const { data, error } = useSWR(
-    `http://localhost:3030/film/review?filmId=${filmId}&page=${page}`,
-    fetcher,
-  )
+  const { data, error } = useSWR(`/auth/login`, fetcher)
   console.log(data)
 
   useEffect(() => {

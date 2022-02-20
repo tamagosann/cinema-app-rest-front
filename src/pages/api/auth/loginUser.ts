@@ -1,23 +1,22 @@
 import type { NextApiHandler } from 'next'
-import { setCookie } from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
 import { createAxios } from '../../../../libs/axios'
-import { LoginDto } from 'types/dto/loginDto'
-import { PostLoginBody } from 'types/requestBody/login'
-import { PostSignupBody } from 'types/requestBody/signup'
+import { LoginUserDto } from 'types/dto/loginDto'
 import { returnErrorResponse } from 'utils/returnErrorResponse'
 
 const { axios, isAxiosError } = createAxios()
-const LOGIN_PATH = '/auth/login'
+const LOGIN_USER_PATH = '/auth/loginUser'
 
 const handler: NextApiHandler = async (req, res) => {
   const { method } = req
   switch (method) {
     case 'POST':
-      const { body } = req
-      const requestBody: PostLoginBody = body
       try {
-        const { data } = await axios.post<LoginDto>(LOGIN_PATH, requestBody)
-        const { token } = data
+        const { accessToken } = parseCookies({ req })
+        const { data } = await axios.post<LoginUserDto>(LOGIN_USER_PATH, {
+          token: accessToken,
+        })
+        const { user, token } = data
         setCookie({ res }, 'accessToken', token, {
           maxAge: 60 * 60 * 24 * 1000, // 1日
           // jsで取得できなくなる、これも入れとくべき
@@ -26,7 +25,7 @@ const handler: NextApiHandler = async (req, res) => {
           secure: true,
           path: '/',
         })
-        return res.status(201).json({ isLoggedIn: true })
+        return res.status(200).json({ user })
       } catch (err) {
         return returnErrorResponse(isAxiosError, err, res)
       }

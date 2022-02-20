@@ -7,7 +7,7 @@ export const returnErrorResponse = (
   res: NextApiResponse,
 ) => {
   if (isAxiosError(err)) {
-    console.error(err)
+    console.error(err.response?.data)
     return res
       .status(err.response?.status!)
       .json({ status_message: err.response?.data.status_message })

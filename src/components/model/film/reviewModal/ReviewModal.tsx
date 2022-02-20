@@ -4,10 +4,8 @@ import {
   Fade,
   Modal,
   TextField,
-  Theme,
   Typography,
 } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import { Box } from '@mui/system'
 import React, { FC } from 'react'
 import { Controller } from 'react-hook-form'
@@ -27,21 +25,6 @@ const style = {
   p: 4,
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  topRoot: {
-    padding: theme.spacing(1),
-    alignItems: 'flex-end',
-    paddingTop: 0,
-  },
-  topItem: {
-    flex: '0 0 auto',
-  },
-  topItemNumber: {
-    flex: '0 0 auto',
-    marginLeft: 10,
-  },
-}))
-
 type Props = {
   initialRating: number
   open: boolean
@@ -49,7 +32,6 @@ type Props = {
 }
 
 const ReviewModal: FC<Props> = ({ open, handleClose, initialRating }) => {
-  const { topItem, topItemNumber, topRoot } = useStyles()
   const { ratingToShow, register, control, errors, submit, handleSubmit } =
     useReviewModal({
       initialRating,
@@ -79,8 +61,16 @@ const ReviewModal: FC<Props> = ({ open, handleClose, initialRating }) => {
               映画名のレビューを作成
             </Typography>
             <form onSubmit={handleSubmit((data) => submit(data))}>
-              <Box display='flex' className={topRoot} sx={{ mb: 2 }}>
-                <Box className={topItem}>
+              <Box
+                display='flex'
+                sx={{
+                  mb: 2,
+                  padding: 1,
+                  alignItems: 'flex-end',
+                  paddingTop: 0,
+                }}
+              >
+                <Box sx={{ flex: '0 0 auto' }}>
                   <Controller
                     control={control}
                     name='rating'
@@ -90,7 +80,9 @@ const ReviewModal: FC<Props> = ({ open, handleClose, initialRating }) => {
                     }}
                   />
                 </Box>
-                <Box className={topItemNumber}>{ratingToShow}</Box>
+                <Box sx={{ flex: '0 0 auto', marginLeft: 10 }}>
+                  {ratingToShow}
+                </Box>
               </Box>
               <TextField
                 label='タイトル'

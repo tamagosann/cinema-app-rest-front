@@ -1,10 +1,6 @@
 import type { NextApiHandler } from 'next'
 import { createAxios } from '../../../../libs/axios'
-import { stabFilmDataList } from 'common/test_mock/stabData'
-import { stabPersonDataList } from 'common/test_mock/stabPersonData'
-import { stabReviewList } from 'common/test_mock/stabReviewData'
 import { UserDto } from 'types/dto/userDto'
-import { TMDB_IMAGE_URL } from 'utils/filmRequests'
 import { pathBuilder } from 'utils/pathbuilder'
 import { returnErrorResponse } from 'utils/returnErrorResponse'
 
@@ -20,7 +16,6 @@ const handler: NextApiHandler = async (req, res) => {
     switch (method) {
       case 'GET':
         try {
-          // manageを入れる方法でうまくいかなかったので一旦urlをベタ打ちしてます、mockはできました
           const { data } = await axios.get<UserDto>(
             pathBuilder({
               path: USER_PATH,

@@ -8,7 +8,7 @@ export type UserDto = {
   username: string
   icon: string
   iconColor: string
-  favoritePeople: PersonData[]
-  favoriteFilms: FilmData[]
-  reviews: ReviewData[]
+  favoritePeople?: PersonData[]
+  favoriteFilms?: FilmData[]
+  reviews?: ReviewData[]
 }

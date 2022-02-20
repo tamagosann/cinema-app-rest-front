@@ -23,34 +23,11 @@ type Props = {
   filmId: number
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  flexItem: {
-    flex: '1 1 33%',
-  },
-  divider: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  mb1: {
-    marginBottom: theme.spacing(1),
-  },
-  button: {
-    fontSize: 14,
-  },
-  pagination: {
-    '& > ul': {
-      justifyContent: 'center',
-    },
-  },
-}))
-
 const FilmReviewListWithTop: FC<Props> = ({
   averageStar,
   isMobileSize,
   filmId,
 }) => {
-  const { divider, mb1, button, flexItem, pagination } = useStyles()
-
   const {
     error,
     totalPage,
@@ -75,7 +52,7 @@ const FilmReviewListWithTop: FC<Props> = ({
   return (
     <>
       <Box display='flex' alignItems='center'>
-        <Box className={flexItem}>
+        <Box sx={{ flex: '1 1 33%' }}>
           {averageStar === undefined ? (
             <Skeleton height={80} />
           ) : (
@@ -91,13 +68,13 @@ const FilmReviewListWithTop: FC<Props> = ({
             </>
           )}
         </Box>
-        <Divider orientation='vertical' flexItem className={divider} />
-        <Box className={flexItem}>
+        <Divider orientation='vertical' flexItem sx={{ ml: 1, mr: 1 }} />
+        <Box sx={{ flex: '1 1 33%' }}>
           {averageStar === undefined ? (
             <Skeleton height={80} />
           ) : (
             <>
-              <Box textAlign='center' className={mb1}>
+              <Box textAlign='center' sx={{ mb: 1 }}>
                 <FiveStars
                   {...{ value: starsSelected, onChange: starsOnChange }}
                 />
@@ -108,15 +85,15 @@ const FilmReviewListWithTop: FC<Props> = ({
             </>
           )}
         </Box>
-        <Divider orientation='vertical' flexItem className={divider} />
-        <Box className={flexItem} textAlign='center'>
+        <Divider orientation='vertical' flexItem sx={{ ml: 1, mr: 1 }} />
+        <Box sx={{ flex: '1 1 33%' }} textAlign='center'>
           {averageStar === undefined ? (
             <Skeleton height={80} />
           ) : (
             <Button
               onClick={handleOpenReviewModal}
               endIcon={<CreateIcon />}
-              className={button}
+              sx={{ fontSize: 14 }}
             >
               レビュー！
             </Button>
@@ -130,7 +107,11 @@ const FilmReviewListWithTop: FC<Props> = ({
       <Box textAlign='center'>
         <Pagination
           color='primary'
-          className={pagination}
+          sx={{
+            '& > ul': {
+              justifyContent: 'center',
+            },
+          }}
           count={totalPage}
           size={isMobileSize ? 'small' : 'medium'}
           page={page}

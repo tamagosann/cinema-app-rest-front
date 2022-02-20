@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/dist/client/router'
 import React, { FC } from 'react'
-import { createAxios } from '../../libs/axios'
+import { createAxios } from '../../../libs/axios'
 import { UserPageView } from 'components/views/Userpage'
 import { useUserPage } from 'hooks/useUserPage'
 import { UserPageDto } from 'types/dto/userPageDto'
